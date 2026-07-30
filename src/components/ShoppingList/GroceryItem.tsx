@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Check, Trash2 } from 'lucide-react';
 import type { GroceryItem as GroceryItemType } from '../../types';
-import { getProductEmoji, getCategoryEmoji } from '../../types';
+import { getProductOrCategoryIcon, getCategoryIcon } from '../../lib/icons';
 
 interface GroceryItemProps {
   item: GroceryItemType;
@@ -28,7 +28,8 @@ export default function GroceryItem({ item, onToggle, onDelete }: GroceryItemPro
   const [isRemoving, setIsRemoving] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const emoji = getProductEmoji(item.name);
+  const ProductIcon = getProductOrCategoryIcon(item.name, item.category);
+  const CategoryIcon = getCategoryIcon(item.category);
   const theme = categoryThemes[item.category] || defaultTheme;
 
   const handleToggle = () => {
@@ -81,14 +82,14 @@ export default function GroceryItem({ item, onToggle, onDelete }: GroceryItemPro
           </span>
         </button>
 
-        {/* Product emoji icon */}
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 transition-all duration-300
+        {/* Product icon */}
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300
           ${item.is_checked
             ? 'bg-sage-100/50 scale-95'
             : 'bg-white shadow-sm border border-sage-100 group-hover:scale-105'
           }`}
         >
-          {emoji}
+          <ProductIcon size={20} className={item.is_checked ? 'text-sage-400' : 'text-sage-600'} />
         </div>
 
         {/* Content */}
@@ -116,14 +117,13 @@ export default function GroceryItem({ item, onToggle, onDelete }: GroceryItemPro
           </div>
 
           {/* Category chip */}
-          <div className="flex items-center gap-1.5 mt-1">
-            <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border transition-all
+          <div className="flex items-center gap-1.5 mt-1">              <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border transition-all
               ${item.is_checked
                 ? 'bg-sage-50 text-sage-400 border-sage-100'
                 : 'bg-white text-sage-500 border-sage-200/70'
               }`}
             >
-              <span className="text-[11px]">{getCategoryEmoji(item.category)}</span>
+              <CategoryIcon size={11} className="opacity-70" />
               {item.category}
             </span>
           </div>

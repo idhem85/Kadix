@@ -1,94 +1,6 @@
 // ============================================
 // Types & Interfaces - Kadix
 // ============================================
-
-// ============================================
-// Product Emojis - Icons for every category & product
-// ============================================
-
-/** Emoji icon for product categories */
-export const CATEGORY_EMOJIS: Record<string, string> = {
-  'Fruits & Légumes': '🥬',
-  'Produits Laitiers': '🥛',
-  'Viandes & Poissons': '🥩',
-  'Épicerie': '🥫',
-  'Boulangerie': '🥖',
-  'Boissons': '🥤',
-  'Surgelés': '🧊',
-  'Hygiène & Maison': '🧹',
-  'Frais & Traiteur': '🥗',
-  'Bio & Diététique': '🌱',
-  'Autre': '📦',
-};
-
-/** Emoji icons for specific common products */
-export const PRODUCT_EMOJIS: Record<string, string> = {
-  // Fruits & Légumes
-  'Pommes': '🍎', 'Bananes': '🍌', 'Oranges': '🍊', 'Citrons': '🍋',
-  'Avocats': '🥑', 'Tomates': '🍅', 'Salade verte': '🥬', 'Concombres': '🥒',
-  'Carottes': '🥕', 'Oignons': '🧅', 'Ail': '🧄', 'Pommes de terre': '🥔',
-  'Poivrons': '🫑', 'Courgettes': '🥒', 'Aubergines': '🍆',
-  'Champignons': '🍄', 'Brocolis': '🥦', 'Épinards': '🌿', 'Frais': '🍓',
-  'Mangue': '🥭', 'Ananas': '🍍', 'Raisins': '🍇', 'Cerises': '🍒', 'Myrtilles': '🫐',
-  // Produits Laitiers
-  'Lait demi-écrémé': '🥛', 'Lait entier': '🥛', 'Beurre': '🧈', 'Œufs': '🥚',
-  'Fromage râpé': '🧀', 'Mozzarella': '🧀', 'Parmesan': '🧀', 'Camembert': '🧀',
-  'Yaourt nature': '🍶', 'Yaourt fruit': '🍶', 'Fromage blanc': '🥣',
-  'Crème fraîche': '🥛', 'Crème liquide': '🥛', 'Petits suisses': '🍶',
-  // Viandes & Poissons
-  'Blanc de poulet': '🍗', 'Cuisses de poulet': '🍗', 'Steak haché': '🥩',
-  'Entrecôte': '🥩', 'Rôti de porc': '🥩', 'Filet mignon': '🥩',
-  'Saumon': '🐟', 'Cabillaud': '🐟', 'Dos de cabillaud': '🐟',
-  'Jambon blanc': '🍖', 'Jambon cru': '🍖', 'Lardons': '🥓', 'Merguez': '🌭',
-  // Épicerie
-  'Pâtes': '🍝', 'Riz': '🍚', 'Lentilles': '🫘', 'Quinoa': '🌾', 'Couscous': '🍚',
-  'Farine': '🌾', 'Sucre': '🍬', 'Sel': '🧂', 'Poivre': '🧂',
-  'Huile d\'olive': '🫒', 'Huile de tournesol': '🫒', 'Vinaigre': '🍶',
-  'Sauce soja': '🥫', 'Confiture': '🍯', 'Miel': '🍯', 'Nutella': '🍫',
-  'Céréales': '🥣', 'Biscuits': '🍪', 'Chocolat noir': '🍫', 'Chocolat au lait': '🍫',
-  'Café moulu': '☕', 'Thé': '🫖', 'Infusions': '🫖', 'Cacao en poudre': '🍫',
-  'Conserve de tomates': '🥫', 'Thon en boîte': '🥫', 'Maïs en boîte': '🥫',
-  'Lait de coco': '🥥', 'Épices': '🌶️', 'Herbes de Provence': '🌿',
-  // Boulangerie
-  'Pain de campagne': '🍞', 'Baguette': '🥖', 'Pain complet': '🍞',
-  'Pain de mie': '🍞', 'Brioche': '🥐', 'Croissants': '🥐',
-  'Pains au chocolat': '🥐', 'Tortillas': '🫓', 'Pain pita': '🫓',
-  // Boissons
-  'Eau plate': '💧', 'Eau gazeuse': '💧', 'Jus d\'orange': '🧃',
-  'Jus de pomme': '🧃', 'Soda': '🥤', 'Coca-Cola': '🥤', 'Limonade': '🥤',
-  'Vin rouge': '🍷', 'Vin blanc': '🍷', 'Bière': '🍺', 'Sirop': '🧃',
-  // Surgelés
-  'Petits pois': '🫛', 'Haricots verts': '🫛', 'Épinards en branche': '🌿',
-  'Frites': '🍟', 'Purée en flocons': '🥔', 'Poisson pané': '🐟',
-  'Pizza surgelée': '🍕', 'Glace vanille': '🍦', 'Glace chocolat': '🍦',
-  'Fruits rouges surgelés': '🫐', 'Légumes pour wok': '🥬',
-  // Hygiène & Maison
-  'Dentifrice': '🪥', 'Brosse à dents': '🪥', 'Shampoing': '🧴',
-  'Gel douche': '🧴', 'Déodorant': '🧴', 'Papier toilette': '🧻',
-  'Essuie-tout': '🧻', 'Liquide vaisselle': '🧼', 'Lessive': '🧺',
-  'Nettoyant multi-surfaces': '🧹', 'Sac poubelle': '🗑️',
-  'Film alimentaire': '🔄', 'Papier aluminium': '🔄',
-  // Frais & Traiteur
-  'Pâte feuilletée': '🥟', 'Pâte brisée': '🥟', 'Pizza fraîche': '🍕',
-  'Plat préparé': '🍱', 'Soupe fraîche': '🍜', 'Tzatziki': '🥒',
-  'Hummus': '🫘', 'Tarama': '🥫', 'Rillettes': '🥫', 'Terrine': '🥫',
-  // Bio & Diététique
-  'Lait d\'amande': '🥛', 'Lait d\'avoine': '🥛', 'Tofu': '🧈',
-  'Seitan': '🧈', 'Graines de chia': '🫘', 'Graines de lin': '🫘',
-  'Purée d\'amande': '🥜', 'Protéines en poudre': '💪',
-  'Barres protéinées': '🍫', 'Compléments': '💊',
-};
-
-/** Get emoji for a product name */
-export function getProductEmoji(name: string): string {
-  return PRODUCT_EMOJIS[name] || CATEGORY_EMOJIS['Autre'] || '📦';
-}
-
-/** Get emoji for a category */
-export function getCategoryEmoji(category: string): string {
-  return CATEGORY_EMOJIS[category] || '📦';
-}
-
 export interface Profile {
   id: string;
   display_name: string | null;
@@ -166,18 +78,20 @@ export interface Recipe {
   _missingCount?: number;
 }
 
-// Rayons / catégories de produits
+// Rayons / catégories de produits étendues
 export const PRODUCT_CATEGORIES = [
   'Fruits & Légumes',
+  'Pains & Pâtisseries',
   'Produits Laitiers',
   'Viandes & Poissons',
-  'Épicerie',
-  'Boulangerie',
+  'Ingrédients & Épices',
+  'Surgelés & Plats Cuisinés',
+  'Pâtes, Riz & Céréales',
+  'Snacks & Friandises',
   'Boissons',
-  'Surgelés',
-  'Hygiène & Maison',
-  'Frais & Traiteur',
-  'Bio & Diététique',
+  'Foyer',
+  'Soin & Santé',
+  'Animaux',
   'Autre',
 ] as const;
 
@@ -187,63 +101,142 @@ export type ProductCategory = typeof PRODUCT_CATEGORIES[number];
 export const COMMON_PRODUCTS: Record<string, string[]> = {
   'Fruits & Légumes': [
     'Pommes', 'Bananes', 'Oranges', 'Citrons', 'Avocats', 'Tomates',
-    'Salade verte', 'Concombres', 'Carottes', 'Oignons', 'Ail',
-    'Pommes de terre', 'Poivrons', 'Courgettes', 'Aubergines',
-    'Champignons', 'Brocolis', 'Épinards', 'Frais',
-    'Mangue', 'Ananas', 'Raisins', 'Cerises', 'Myrtilles',
+    'Salade verte', 'Salade', 'Mâche', 'Roquette', 'Concombres', 'Carottes',
+    'Oignons', 'Ail', 'Échalotes', 'Pommes de terre', 'Patates douces',
+    'Poivrons', 'Courgettes', 'Aubergines', 'Haricots verts', 'Petits pois',
+    'Champignons', 'Brocolis', 'Chou-fleur', 'Choux', 'Épinards',
+    'Frais', 'Fraises', 'Framboises', 'Myrtilles', 'Cerises', 'Raisins',
+    'Mangue', 'Ananas', 'Melon', 'Pastèque', 'Kiwi', 'Pêches', 'Poires',
+    'Radis', 'Betteraves', 'Artichauts', 'Asperges', 'Endives', 'Poireaux',
+    'Céleri', 'Maïs', 'Citrouille', 'Potiron', 'Navets', 'Topinambours',
+  ],
+  'Pains & Pâtisseries': [
+    'Pain de campagne', 'Baguette', 'Pain complet', 'Pain de mie',
+    'Brioche', 'Croissants', 'Pains au chocolat', 'Pain aux raisins',
+    'Pain au lait', 'Pain burger', 'Pain pita', 'Pain suédois',
+    'Biscottes', 'Chapelure', 'Viennoiseries', 'Cookies', 'Muffins',
+    'Madeleines', 'Gauffres', 'Crêpes', 'Tortillas',
   ],
   'Produits Laitiers': [
-    'Lait demi-écrémé', 'Lait entier', 'Beurre', 'Œufs',
-    'Fromage râpé', 'Mozzarella', 'Parmesan', 'Camembert',
-    'Yaourt nature', 'Yaourt fruit', 'Fromage blanc',
-    'Crème fraîche', 'Crème liquide', 'Petits suisses',
+    'Lait demi-écrémé', 'Lait entier', 'Lait écrémé', 'Beurre', 'Œufs',
+    'Fromage râpé', 'Mozzarella', 'Parmesan', 'Comté', 'Emmental',
+    'Camembert', 'Brie', 'Chèvre', 'Roquefort', 'Fromage blanc',
+    'Yaourt nature', 'Yaourt fruit', 'Yaourt grec', 'Petit suisse',
+    'Crème fraîche', 'Crème liquide', 'Ricotta', 'Mascarpone',
+    'Kéfir', 'Lait fermenté', 'Faisselle',
   ],
   'Viandes & Poissons': [
-    'Blanc de poulet', 'Cuisses de poulet', 'Steak haché',
-    'Entrecôte', 'Rôti de porc', 'Filet mignon',
-    'Saumon', 'Cabillaud', 'Dos de cabillaud',
+    'Blanc de poulet', 'Cuisses de poulet', 'Steak haché', 'Entrecôte',
+    'Rôti de porc', 'Filet mignon', 'Rôti de bœuf', 'Côte de bœuf',
+    'Sauté de veau', 'Escalope de dinde', 'Poulet rôti',
+    'Saumon', 'Cabillaud', 'Truite', 'Saumon fumé',
+    'Crevettes', 'Gambas', 'Moules', 'Saint-Jacques',
     'Jambon blanc', 'Jambon cru', 'Lardons', 'Merguez',
+    'Saucisses', 'Chorizo', 'Andouille', 'Boudin noir', 'Boudin blanc',
+    'Pâté', 'Rillettes', 'Foie gras', 'Lapin', 'Agneau',
   ],
-  'Épicerie': [
-    'Pâtes', 'Riz', 'Lentilles', 'Quinoa', 'Couscous',
-    'Farine', 'Sucre', 'Sel', 'Poivre', 'Huile d\'olive',
-    'Huile de tournesol', 'Vinaigre', 'Sauce soja',
-    'Confiture', 'Miel', 'Nutella', 'Céréales',
-    'Biscuits', 'Chocolat noir', 'Chocolat au lait',
-    'Café moulu', 'Thé', 'Infusions', 'Cacao en poudre',
-    'Conserve de tomates', 'Thon en boîte', 'Maïs en boîte',
-    'Lait de coco', 'Épices', 'Herbes de Provence',
+  'Ingrédients & Épices': [
+    'Sel fin', 'Gros sel', 'Poivre noir', 'Poivre blanc',
+    'Curry', 'Paprika', 'Cumin', 'Coriandre', 'Cannelle',
+    'Muscade', 'Gingembre', 'Piment', 'Safran', 'Vanille',
+    'Laurier', 'Thym', 'Romarin', 'Origan', 'Basilic',
+    'Menthe', 'Persil', 'Ciboulette', 'Aneth', 'Estragon', 'Sauge',
+    'Huile d\'olive', 'Huile de tournesol', 'Huile de sésame', 'Huile de coco',
+    'Vinaigre balsamique', 'Vinaigre de vin', 'Vinaigre de cidre',
+    'Sauce soja', 'Worcestershire', 'Moutarde', 'Mayonnaise', 'Ketchup',
+    'Concentré de tomates', 'Miel', 'Sirop d\'érable',
+    'Bouillon cube', 'Levure', 'Levure chimique', 'Bicarbonate',
+    'Herbes de Provence', 'Épices',
   ],
-  'Boulangerie': [
-    'Pain de campagne', 'Baguette', 'Pain complet',
-    'Pain de mie', 'Brioche', 'Croissants', 'Pains au chocolat',
-    'Tortillas', 'Pain pita', 'Pita',
+  'Surgelés & Plats Cuisinés': [
+    'Petits pois surgelés', 'Haricots verts surgelés', 'Épinards surgelés',
+    'Brocolis surgelés', 'Légumes pour wok', 'Légumes surgelés',
+    'Frites surgelées', 'Purée surgelée', 'Purée en flocons',
+    'Poisson pané surgelé', 'Poisson surgelé',
+    'Pizza surgelée', 'Pizza 4 fromages', 'Pizza jambon',
+    'Lasagnes surgelées', 'Plats préparés surgelés',
+    'Lasagnes', 'Gratin dauphinois', 'Tartiflette', 'Quiche lorraine',
+    'Soupe en brique', 'Soupe fraîche',
+    'Nems surgelés', 'Raviolis surgelés',
+    'Glace vanille', 'Glace chocolat', 'Glace fraise', 'Sorbet',
+    'Fruits rouges surgelés', 'Fruits surgelés',
+  ],
+  'Pâtes, Riz & Céréales': [
+    'Pâtes', 'Pâtes spaghetti', 'Pâtes penne', 'Pâtes fusilli',
+    'Pâtes tagliatelle', 'Pâtes coquillettes', 'Pâtes farfalle', 'Pâtes linguine',
+    'Riz blanc', 'Riz complet', 'Riz basmati', 'Riz thaï', 'Riz arborio',
+    'Quinoa', 'Semoule', 'Couscous', 'Boulgour',
+    'Lentilles vertes', 'Lentilles corail', 'Pois chiches',
+    'Haricots rouges', 'Haricots blancs', 'Fèves',
+    'Flocons d\'avoine', 'Avoine', 'Muesli', 'Granola',
+    'Céréales', 'Farine de blé', 'Farine complète', 'Farine de riz',
+    'Orge', 'Sarrasin', 'Millet', 'Pain d\'épices',
+  ],
+  'Snacks & Friandises': [
+    'Chocolat noir', 'Chocolat au lait', 'Chocolat blanc',
+    'Tablette chocolat', 'Barre chocolatée', 'Bonbons', 'Chewing-gum',
+    'Biscuits', 'Cookies', 'Gâteaux', 'Brownie', 'Muffin', 'Madeleines',
+    'Chips', 'Cacahuètes', 'Amandes', 'Noix', 'Noisettes',
+    'Noix de cajou', 'Pistaches', 'Fruits secs',
+    'Cracker', 'Bretzels', 'Popcorn',
+    'Nutella', 'Pâte à tartiner', 'Confiture', 'Marmelade',
+    'Compote', 'Caramel', 'Nougat', 'Guimauve',
+    'Biscuit apéritif', 'Gressins',
   ],
   'Boissons': [
-    'Eau plate', 'Eau gazeuse', 'Jus d\'orange',
-    'Jus de pomme', 'Soda', 'Coca-Cola', 'Limonade',
-    'Vin rouge', 'Vin blanc', 'Bière', 'Sirop',
+    'Eau plate', 'Eau gazeuse', 'Eau minérale',
+    'Jus d\'orange', 'Jus de pomme', 'Jus de raisin', 'Jus multifruits',
+    'Soda', 'Coca-Cola', 'Coca zéro', 'Sprite', 'Fanta', 'Limonade',
+    'Ice tea', 'Tonic', 'Eau pétillante',
+    'Vin rouge', 'Vin blanc', 'Vin rosé', 'Champagne',
+    'Bière', 'Bière blonde', 'Bière brune', 'Bière blanche', 'Cidre',
+    'Sirop', 'Sirop de grenadine', 'Sirop de menthe',
+    'Café moulu', 'Café en grains', 'Café soluble',
+    'Thé noir', 'Thé vert', 'Thé blanc', 'Thé matcha',
+    'Infusions', 'Tisane', 'Cacao', 'Chocolat chaud',
+    'Smoothie', 'Énergisant',
   ],
-  'Surgelés': [
-    'Petits pois', 'Haricots verts', 'Épinards en branche',
-    'Frites', 'Purée en flocons', 'Poisson pané',
-    'Pizza surgelée', 'Glace vanille', 'Glace chocolat',
-    'Fruits rouges surgelés', 'Légumes pour wok',
+  'Foyer': [
+    'Liquide vaisselle', 'Pastille lave-vaisselle',
+    'Lessive', 'Adoucissant', 'Détachant',
+    'Nettoyant surfaces', 'Nettoyant vitres', 'Nettoyant multi-surfaces',
+    'Nettoyant salle de bain', 'Nettoyant WC',
+    'Javel', 'Déboucheur', 'Anti-calcaire', 'Spray désinfectant',
+    'Sac poubelle', 'Sac congélation', 'Sac sous-vide',
+    'Film alimentaire', 'Papier aluminium', 'Papier cuisson',
+    'Essuie-tout', 'Chiffon microfibre', 'Éponge',
+    'Balayette', 'Serpillière', 'Gants ménage',
+    'Piles', 'Ampoule', 'Bougie', 'Allumettes', 'Briquet',
+    'Ruban adhésif', 'Ciseaux', 'Cutter',
   ],
-  'Hygiène & Maison': [
-    'Dentifrice', 'Brosse à dents', 'Shampoing', 'Gel douche',
-    'Déodorant', 'Papier toilette', 'Essuie-tout',
-    'Liquide vaisselle', 'Lessive', 'Nettoyant multi-surfaces',
-    'Sac poubelle', 'Film alimentaire', 'Papier aluminium',
+  'Soin & Santé': [
+    'Savon liquide', 'Savon solide', 'Gel douche',
+    'Shampoing', 'Après-shampoing', 'Soin cheveux',
+    'Dentifrice', 'Brosse à dents', 'Fil dentaire', 'Bain de bouche',
+    'Déodorant', 'Parfum',
+    'Crème hydratante', 'Crème solaire', 'Après-rasage',
+    'Rasoir', 'Lames rasoir', 'Mousse à raser',
+    'Cotons', 'Coton-tige', 'Lingettes',
+    'Papier toilette', 'Mouchoirs',
+    'Serviettes hygiéniques', 'Tampons', 'Protège-slips', 'Couches',
+    'Lait corporel', 'Démaquillant',
+    'Spray nasal', 'Collyre', 'Comprimés',
+    'Vitamines', 'Compléments alimentaires',
+    'Pansements', 'Sparadrap', 'Thermomètre',
+    'Masque', 'Gel hydroalcoolique',
   ],
-  'Frais & Traiteur': [
-    'Pâte feuilletée', 'Pâte brisée', 'Pizza fraîche',
-    'Plat préparé', 'Soupe fraîche', 'Tzatziki', 'Hummus',
-    'Tarama', 'Rillettes', 'Terrine',
-  ],
-  'Bio & Diététique': [
-    'Lait d\'amande', 'Lait d\'avoine', 'Tofu', 'Seitan',
-    'Graines de chia', 'Graines de lin', 'Purée d\'amande',
-    'Protéines en poudre', 'Barres protéinées', 'Compléments',
+  'Animaux': [
+    'Croquettes chien', 'Croquettes chat', 'Croquettes',
+    'Pâtée chien', 'Pâtée chat', 'Pâtée',
+    'Friandises chien', 'Friandises chat',
+    'Litière chat', 'Litière', 'Litière agglomérante',
+    'Sacs déjection',
+    'Jouet chien', 'Jouet chat', 'Os', 'Arbre à chat',
+    'Panier chien', 'Panier chat', 'Gamelle',
+    'Brosse chien', 'Brosse chat',
+    'Shampoing chien', 'Shampoing chat',
+    'Anti-puces', 'Vermifuge',
+    'Nourriture oiseau', 'Nourriture poisson',
+    'Graines hamster', 'Foin lapin', 'Litière rongeur',
   ],
 };

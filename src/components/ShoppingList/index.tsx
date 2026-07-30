@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { ShoppingBag, RefreshCw, CheckCheck, ShoppingCart, Zap } from 'lucide-react';
+import { ShoppingBag, RefreshCw, CheckCheck, Zap } from 'lucide-react';
 import AddItemInput from './AddItemInput';
 import GroceryItem from './GroceryItem';
 import { useGroceryStore, useTabStore, useShoppingModeStore } from '../../store/groceryStore';
 import { addGroceryItem, getGroceryItems, toggleGroceryItem, deleteGroceryItem, clearCheckedItems, addToPantry } from '../../lib/db';
 import { useRealtimeSubscription } from '../../hooks/useRealtime';
-import { getCategoryEmoji } from '../../types';
+import { getCategoryIcon } from '../../lib/icons';
 import type { GroceryItem as GroceryItemType } from '../../types';
 
 interface ShoppingListProps {
@@ -59,6 +59,16 @@ export default function ShoppingListView({ listId }: ShoppingListProps) {
     return acc;
   }, {});
 
+  const categoryOrder = [
+    'Fruits & Légumes', 'Pains & Pâtisseries', 'Produits Laitiers', 'Viandes & Poissons',
+    'Ingrédients & Épices', 'Surgelés & Plats Cuisinés', 'Pâtes, Riz & Céréales',
+    'Snacks & Friandises', 'Boissons', 'Foyer', 'Soin & Santé', 'Animaux', 'Autre',
+  ];
+
+  const sortedCategories = Object.entries(itemsByCategory).sort(
+    ([a], [b]) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b)
+  );
+
   const checkedCount = checkedItems.length;
   const uncheckedCount = uncheckedItems.length;
 
@@ -69,7 +79,13 @@ export default function ShoppingListView({ listId }: ShoppingListProps) {
         <div className="bg-white rounded-2xl border border-sage-100 p-4 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <span className="text-lg">{uncheckedCount === 0 ? '🎉' : '🛍️'}</span>
+              <div className="w-9 h-9 rounded-xl bg-sage-100 flex items-center justify-center">
+                {uncheckedCount === 0 ? (
+                  <CheckCheck size={20} className="text-sage-600" />
+                ) : (
+                  <ShoppingBag size={20} className="text-sage-500" />
+                )}
+              </div>
               <div>
                 <p className="text-sm font-semibold text-sage-800">
                   {uncheckedCount === 0
@@ -94,7 +110,6 @@ export default function ShoppingListView({ listId }: ShoppingListProps) {
                   shadow-sm shadow-sage-600/20 active:scale-95"
               >
                 <Zap size={14} />
-                <ShoppingCart size={14} />
                 Course
               </button>
 
@@ -143,24 +158,29 @@ export default function ShoppingListView({ listId }: ShoppingListProps) {
       )}
 
       {/* Unchecked items by category */}
-      {Object.entries(itemsByCategory).map(([category, categoryItems]) => (
-        <div key={category} className="space-y-2">
-          <div className="flex items-center gap-2 px-1">
-            <span className="text-base">{getCategoryEmoji(category)}</span>
-            <h3 className="text-xs font-bold text-sage-500 uppercase tracking-wider">
-              {category}
-            </h3>
-            <span className="text-[10px] text-sage-300 font-medium ml-auto">
-              {categoryItems.length}
-            </span>
+      {sortedCategories.map(([category, categoryItems]) => {
+        const CatIcon = getCategoryIcon(category);
+        return (
+          <div key={category} className="space-y-2">
+            <div className="flex items-center gap-2 px-1">
+              <div className="w-6 h-6 rounded-lg bg-sage-100 flex items-center justify-center">
+                <CatIcon size={14} className="text-sage-500" />
+              </div>
+              <h3 className="text-xs font-bold text-sage-500 uppercase tracking-wider">
+                {category}
+              </h3>
+              <span className="text-[10px] text-sage-300 font-medium ml-auto">
+                {categoryItems.length}
+              </span>
+            </div>
+            <div className="space-y-2">
+              {categoryItems.map((item) => (
+                <GroceryItem key={item.id} item={item} onToggle={handleToggle} onDelete={handleDelete} />
+              ))}
+            </div>
           </div>
-          <div className="space-y-2">
-            {categoryItems.map((item) => (
-              <GroceryItem key={item.id} item={item} onToggle={handleToggle} onDelete={handleDelete} />
-            ))}
-          </div>
-        </div>
-      ))}
+        );
+      })}
 
       {/* Checked items section */}
       {checkedItems.length > 0 && (

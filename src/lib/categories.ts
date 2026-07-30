@@ -4,6 +4,7 @@ import { COMMON_PRODUCTS } from '../types';
 export function guessCategory(name: string): string {
   const normalized = name.toLowerCase().trim();
 
+  // First pass: exact match or substring containment
   for (const [category, products] of Object.entries(COMMON_PRODUCTS)) {
     if (
       products.some(
@@ -16,7 +17,29 @@ export function guessCategory(name: string): string {
     }
   }
 
-  // Secondary check: try matching individual words
+  // Second pass: keyword-based matching
+  const keywords: Record<string, string[]> = {
+    'Fruits & Légumes': ['fruit', 'légume', 'frais', 'bio', 'mûr', 'mûre'],
+    'Pains & Pâtisseries': ['pain', 'boulangerie', 'viennoiserie', 'patisserie', 'pâtisserie', 'baguette', 'croissant'],
+    'Produits Laitiers': ['lait', 'laitier', 'produit laitier', 'crèmerie', 'yaourt', 'fromage'],
+    'Viandes & Poissons': ['viande', 'poisson', 'boucherie', 'poissonnerie', 'volaille', 'charcuterie'],
+    'Ingrédients & Épices': ['épice', 'ingrédient', 'sauce', 'huile', 'vinaigre', 'sel', 'poivre', 'herbe', 'épice', 'condiment'],
+    'Surgelés & Plats Cuisinés': ['surgelé', 'congelé', 'glace', 'surgeles', 'plats cuisinés', 'surgelée'],
+    'Pâtes, Riz & Céréales': ['pâte', 'riz', 'céréale', 'farine', 'semoule', 'couscous', 'lentille', 'haricot', 'pois chiche', 'quinoa'],
+    'Snacks & Friandises': ['snack', 'friandise', 'chocolat', 'bonbon', 'biscuit', 'gâteau', 'chips', 'apéritif'],
+    'Boissons': ['boisson', 'eau', 'jus', 'soda', 'café', 'thé', 'infusion', 'sirop', 'bière', 'vin'],
+    'Foyer': ['ménage', 'entretien', 'nettoyant', 'lessive', 'vaisselle', 'poubelle', 'sac', 'papier'],
+    'Soin & Santé': ['soin', 'santé', 'hygiène', 'dentifrice', 'shampoing', 'savon', 'crème', 'déodorant'],
+    'Animaux': ['animal', 'chien', 'chat', 'croquette', 'litière', 'animalerie'],
+  };
+
+  for (const [category, words] of Object.entries(keywords)) {
+    if (words.some((w) => normalized.includes(w))) {
+      return category;
+    }
+  }
+
+  // Third pass: try matching individual words from the name
   const words = normalized.split(/\s+/);
   for (const [category, products] of Object.entries(COMMON_PRODUCTS)) {
     for (const product of products) {

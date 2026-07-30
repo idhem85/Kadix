@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Archive, Plus, X, RefreshCw, ShoppingCart, Sparkles } from 'lucide-react';
+import { Archive, Plus, X, RefreshCw, ShoppingCart, Sparkles, Search } from 'lucide-react';
 import { usePantryStore } from '../../store/groceryStore';
 import { getPantryItems, removeFromPantry, addGroceryItem, addToPantry as addToPantryDb } from '../../lib/db';
-import { PRODUCT_CATEGORIES, COMMON_PRODUCTS, getProductEmoji, getCategoryEmoji, CATEGORY_EMOJIS } from '../../types';
+import { PRODUCT_CATEGORIES, COMMON_PRODUCTS } from '../../types';
+import { getProductOrCategoryIcon, getCategoryIcon } from '../../lib/icons';
 
 interface PantryProps {
   listId: string;
@@ -69,7 +70,9 @@ export default function PantryView({ listId }: PantryProps) {
     <div className="space-y-5">
       {/* Search */}
       <div className="relative">
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-lg z-10">🔍</div>
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+          <Search size={18} className="text-sage-400" />
+        </div>
         <input
           type="text"
           value={searchQuery}
@@ -102,23 +105,26 @@ export default function PantryView({ listId }: PantryProps) {
                 : 'bg-white text-sage-500 border-sage-200 hover:border-sage-300 hover:shadow-sm'
               }`}
           >
-            <span>📋</span> Tout
+            <Archive size={14} /> Tout
           </button>
-          {PRODUCT_CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat === selectedCategory ? null : cat)}
-              className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold border whitespace-nowrap 
-                transition-all flex items-center gap-1.5
-                ${cat === selectedCategory
-                  ? 'bg-sage-600 text-white border-sage-600 shadow-sm shadow-sage-600/20'
-                  : 'bg-white text-sage-500 border-sage-200 hover:border-sage-300 hover:shadow-sm'
-                }`}
-            >
-              <span>{CATEGORY_EMOJIS[cat] || '📦'}</span>
-              {cat}
-            </button>
-          ))}
+          {PRODUCT_CATEGORIES.map((cat) => {
+            const CatIcon = getCategoryIcon(cat);
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat === selectedCategory ? null : cat)}
+                className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold border whitespace-nowrap 
+                  transition-all flex items-center gap-1.5
+                  ${cat === selectedCategory
+                    ? 'bg-sage-600 text-white border-sage-600 shadow-sm shadow-sage-600/20'
+                    : 'bg-white text-sage-500 border-sage-200 hover:border-sage-300 hover:shadow-sm'
+                  }`}
+              >
+                <CatIcon size={14} />
+                {cat}
+              </button>
+            );
+          })}
         </div>
       )}
 
@@ -135,7 +141,8 @@ export default function PantryView({ listId }: PantryProps) {
 
           <div className="grid grid-cols-2 gap-2.5">
             {sortedPantry.map((item) => {
-              const emoji = getProductEmoji(item.name);
+              const ItemIcon = getProductOrCategoryIcon(item.name, item.category);
+              const CatIcon = getCategoryIcon(item.category);
               return (
                 <div
                   key={item.id}
@@ -154,8 +161,8 @@ export default function PantryView({ listId }: PantryProps) {
                   >
                     <div className="flex items-center gap-2.5 mb-2">
                       <div className="w-10 h-10 rounded-xl bg-white shadow-sm border border-sage-100 
-                        flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">
-                        {emoji}
+                        flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <ItemIcon size={20} className="text-sage-600" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-sage-800 truncate leading-tight">
@@ -170,7 +177,7 @@ export default function PantryView({ listId }: PantryProps) {
                     {/* Category tag */}
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-sage-50 text-sage-500 
                       rounded-full text-[9px] font-medium border border-sage-100">
-                      <span className="text-[10px]">{getCategoryEmoji(item.category)}</span>
+                      <CatIcon size={10} className="opacity-60" />
                       {item.category}
                     </span>
                   </button>
@@ -207,7 +214,7 @@ export default function PantryView({ listId }: PantryProps) {
         <div className="flex items-center gap-2 mb-3">
           <Sparkles size={15} className="text-sage-400" />
           <h2 className="text-sm font-extrabold text-sage-500 uppercase tracking-wider">
-            {searchQuery ? `Résultats` : selectedCategory ? `${CATEGORY_EMOJIS[selectedCategory] || ''} ${selectedCategory}` : 'Suggestions'}
+            {searchQuery ? `Résultats` : selectedCategory ? `${selectedCategory}` : 'Suggestions'}
           </h2>
         </div>
 
@@ -229,7 +236,8 @@ export default function PantryView({ listId }: PantryProps) {
         ) : (
           <div className="grid grid-cols-2 gap-2.5">
             {filteredProducts.slice(0, 12).map((product) => {
-              const emoji = getProductEmoji(product.name);
+              const ItemIcon = getProductOrCategoryIcon(product.name, product.category);
+              const CatIcon = getCategoryIcon(product.category);
               return (
                 <button
                   key={product.name}
@@ -240,15 +248,15 @@ export default function PantryView({ listId }: PantryProps) {
                     disabled:opacity-50"
                 >
                   <div className="flex items-center gap-2.5 mb-1.5">
-                    <div className="w-9 h-9 rounded-xl bg-sage-50 flex items-center justify-center text-lg
+                    <div className="w-9 h-9 rounded-xl bg-sage-50 flex items-center justify-center
                       group-hover:scale-110 transition-transform duration-300">
-                      {emoji}
+                      <ItemIcon size={18} className="text-sage-500" />
                     </div>
                     <p className="text-sm font-bold text-sage-700 truncate flex-1">{product.name}</p>
                   </div>
                   <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-sage-50 text-sage-400 
                     rounded-full text-[9px] font-medium">
-                    <span className="text-[10px]">{getCategoryEmoji(product.category)}</span>
+                    <CatIcon size={10} className="opacity-60" />
                     {product.category}
                   </span>
 

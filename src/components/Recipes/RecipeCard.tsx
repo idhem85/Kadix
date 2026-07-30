@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Clock, Plus, Check, ChevronDown, Sparkles } from 'lucide-react';
 import type { Recipe, PantryItem } from '../../types';
 import { guessCategory } from '../../lib/categories';
+import { getIcon } from '../../lib/icons';
+import type { LucideIcon } from 'lucide-react';
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -9,16 +11,17 @@ interface RecipeCardProps {
   onAddIngredients: (ingredients: { name: string; category: string }[]) => void;
 }
 
-const RECIPE_EMOJIS: Record<string, string> = {
-  'Pâtes à la carbonara express': '🍝',
-  'Salade bowl méditerranéenne': '🥗',
-  'Omelette roulée aux légumes': '🍳',
-  'Tartines avocat-poulet grillé': '🥑',
-  'Bol de riz sauté aux légumes et œuf': '🍚',
+const RECIPE_ICONS: Record<string, string> = {
+  'Pâtes à la carbonara express': 'UtensilsCrossed',
+  'Salade bowl méditerranéenne': 'Sprout',
+  'Omelette roulée aux légumes': 'Egg',
+  'Tartines avocat-poulet grillé': 'Bread',
+  'Bol de riz sauté aux légumes et œuf': 'Wheat',
 };
 
-function getRecipeEmoji(title: string): string {
-  return RECIPE_EMOJIS[title] || '🍽️';
+function getRecipeIcon(title: string): LucideIcon {
+  const iconName = RECIPE_ICONS[title];
+  return getIcon(iconName);
 }
 
 export default function RecipeCard({ recipe, pantryItems, onAddIngredients }: RecipeCardProps) {
@@ -26,7 +29,7 @@ export default function RecipeCard({ recipe, pantryItems, onAddIngredients }: Re
   const [added, setAdded] = useState(false);
   const ingredients = recipe.ingredients || [];
   const instructions = recipe.instructions || [];
-  const emoji = getRecipeEmoji(recipe.title);
+  const RecipeIcon = getRecipeIcon(recipe.title);
 
   const pantryNames = pantryItems.map((item) =>
     item.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -73,8 +76,8 @@ export default function RecipeCard({ recipe, pantryItems, onAddIngredients }: Re
         onClick={() => setExpanded(!expanded)}
         className="w-full p-4 text-left flex items-start gap-3"
       >
-        {/* Recipe emoji */}
-        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shrink-0
+        {/* Recipe icon */}
+        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0
           transition-all duration-300 ${expanded ? 'scale-110' : ''}`}
           style={{
             background: matchLevel === 'high'
@@ -84,7 +87,7 @@ export default function RecipeCard({ recipe, pantryItems, onAddIngredients }: Re
               : 'linear-gradient(135deg, #f1f5f9, #e2e8f0)',
           }}
         >
-          {emoji}
+          <RecipeIcon size={24} className={matchLevel === 'high' ? 'text-green-700' : matchLevel === 'medium' ? 'text-amber-700' : 'text-sage-600'} />
         </div>
 
         <div className="flex-1 min-w-0">

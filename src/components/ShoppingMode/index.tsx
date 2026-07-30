@@ -2,13 +2,13 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { X, Check, ShoppingBag, Zap } from 'lucide-react';
 import { useGroceryStore } from '../../store/groceryStore';
 import { toggleGroceryItem } from '../../lib/db';
-import { getProductEmoji, getCategoryEmoji } from '../../types';
+import { getProductOrCategoryIcon, getCategoryIcon } from '../../lib/icons';
 import type { GroceryItem } from '../../types';
 
 const categoryOrder = [
-  'Fruits & Légumes', 'Produits Laitiers', 'Viandes & Poissons',
-  'Boulangerie', 'Épicerie', 'Boissons', 'Surgelés',
-  'Frais & Traiteur', 'Bio & Diététique', 'Hygiène & Maison', 'Autre',
+  'Fruits & Légumes', 'Pains & Pâtisseries', 'Produits Laitiers', 'Viandes & Poissons',
+  'Ingrédients & Épices', 'Surgelés & Plats Cuisinés', 'Pâtes, Riz & Céréales',
+  'Snacks & Friandises', 'Boissons', 'Foyer', 'Soin & Santé', 'Animaux', 'Autre',
 ];
 
 interface ShoppingModeProps {
@@ -132,7 +132,7 @@ export default function ShoppingMode({ onExit }: ShoppingModeProps) {
         {/* Items by category */}
         {Object.entries(itemsByCategory).map(([category, categoryItems]) => {
           const hasUnchecked = categoryItems.some((i) => !i.is_checked);
-          const catEmoji = getCategoryEmoji(category);
+          const CatIcon = getCategoryIcon(category);
           const uncheckedInCat = categoryItems.filter((i) => !i.is_checked).length;
 
           return (
@@ -140,7 +140,9 @@ export default function ShoppingMode({ onExit }: ShoppingModeProps) {
               {/* Category header (only if has unchecked) */}
               {hasUnchecked && (
                 <div className="flex items-center gap-2 px-1 py-3">
-                  <span className="text-lg">{catEmoji}</span>
+                  <div className="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center">
+                    <CatIcon size={14} className="text-white/60" />
+                  </div>
                   <h3 className="text-xs font-bold text-white/50 uppercase tracking-widest">
                     {category}
                   </h3>
@@ -152,7 +154,7 @@ export default function ShoppingMode({ onExit }: ShoppingModeProps) {
 
               <div className="space-y-1.5">
                 {categoryItems.map((item) => {
-                  const emoji = getProductEmoji(item.name);
+                  const ItemIcon = getProductOrCategoryIcon(item.name, item.category);
                   const isAnimating = checkAnim === item.id;
 
                   return (
@@ -179,15 +181,15 @@ export default function ShoppingMode({ onExit }: ShoppingModeProps) {
                           ${item.is_checked ? 'bg-sage-700' : 'bg-sage-500'}
                         `} />
 
-                        {/* Emoji */}
-                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shrink-0
+                        {/* Icon */}
+                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0
                           transition-all duration-300
                           ${item.is_checked
                             ? 'bg-white/5 scale-90'
                             : 'bg-white/10'
                           }
                         `}>
-                          {emoji}
+                          <ItemIcon size={22} className={item.is_checked ? 'text-white/30' : 'text-white/70'} />
                         </div>
 
                         {/* Content */}

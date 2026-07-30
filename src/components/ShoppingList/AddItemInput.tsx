@@ -1,10 +1,17 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Plus, X, Sparkles } from 'lucide-react';
-import { COMMON_PRODUCTS, getCategoryEmoji, getProductEmoji } from '../../types';
+import { Plus, X, Sparkles, ShoppingCart } from 'lucide-react';
+import { COMMON_PRODUCTS } from '../../types';
 import { guessCategory } from '../../lib/categories';
+import { getProductIcon, getCategoryIcon, getProductOrCategoryIcon } from '../../lib/icons';
 
 interface AddItemInputProps {
   onAdd: (name: string, category: string) => void;
+}
+
+/** Small helper to render a product icon by name */
+function ProductHintIcon({ name }: { name: string }) {
+  const Icon = getProductOrCategoryIcon(name, guessCategory(name));
+  return <Icon size={18} className="text-sage-500" />;
 }
 
 export default function AddItemInput({ onAdd }: AddItemInputProps) {
@@ -82,8 +89,11 @@ export default function AddItemInput({ onAdd }: AddItemInputProps) {
         `}
       >
         {/* Category icon hint */}
-        <span className="text-lg shrink-0">
-          {value.trim() ? getProductEmoji(value.trim()) : '🛒'}
+        <span className="w-8 h-8 rounded-xl bg-sage-100 flex items-center justify-center shrink-0">
+          {value.trim()
+            ? <ProductHintIcon name={value.trim()} />
+            : <ShoppingCart size={18} className="text-sage-400" />
+          }
         </span>
 
         <input
@@ -139,9 +149,10 @@ export default function AddItemInput({ onAdd }: AddItemInputProps) {
 
           <div className="max-h-56 overflow-y-auto">
             {suggestions.map((product, index) => {
-              const emoji = getProductEmoji(product);
               const cat = guessCategory(product);
-              const catEmoji = getCategoryEmoji(cat);
+
+              const ProductIcon = getProductIcon(product);
+              const CategoryIcon = getCategoryIcon(cat);
 
               return (
                 <button
@@ -161,12 +172,14 @@ export default function AddItemInput({ onAdd }: AddItemInputProps) {
                     ${index !== suggestions.length - 1 ? 'border-b border-sage-50/50' : ''}
                   `}
                 >
-                  <span className="text-xl w-8 text-center shrink-0">{emoji}</span>
+                  <span className="w-8 h-8 rounded-lg bg-sage-50 flex items-center justify-center shrink-0">
+                    <ProductIcon size={18} className="text-sage-500" />
+                  </span>
                   <div className="flex-1 min-w-0">
                     <span className="text-sm font-medium truncate block">{product}</span>
                   </div>
                   <span className="text-[10px] text-sage-400 font-medium flex items-center gap-1 shrink-0">
-                    <span>{catEmoji}</span>
+                    <CategoryIcon size={11} className="opacity-60" />
                     {cat}
                   </span>
                 </button>

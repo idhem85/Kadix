@@ -1,39 +1,39 @@
 @import "tailwindcss";
 
 @theme {
-  --color-sage-50: #f6f7f4;
-  --color-sage-100: #e8ebe2;
-  --color-sage-200: #d1d5c9;
-  --color-sage-300: #b5bba9;
-  --color-sage-400: #99a18a;
-  --color-sage-500: #7d876e;
-  --color-sage-600: #636c55;
-  --color-sage-700: #4e5542;
-  --color-sage-800: #3f4536;
-  --color-sage-900: #363b2f;
-  --color-sage-950: #1b1e17;
-  --color-cream-50: #fdfbf7;
-  --color-cream-100: #f9f4e8;
-  --color-cream-200: #f1e6cd;
-  --color-cream-300: #e8d4a8;
-  --color-cream-400: #ddbc7e;
-  --color-cream-500: #d4a55e;
-  --color-cream-600: #c58f4a;
-  --color-cream-700: #a4743e;
-  --color-cream-800: #855e38;
-  --color-cream-900: #6d4e32;
-  --color-cream-950: #3a281a;
-  --color-warm-50: #fef5ee;
-  --color-warm-100: #fde8d7;
-  --color-warm-200: #facdae;
-  --color-warm-300: #f6aa7b;
-  --color-warm-400: #f18046;
-  --color-warm-500: #ee6325;
-  --color-warm-600: #df4b1a;
-  --color-warm-700: #b93717;
-  --color-warm-800: #932d1a;
-  --color-warm-900: #772818;
-  --color-warm-950: #40120a;
+  --color-sage-50: #fffaf5;
+  --color-sage-100: #fff0e6;
+  --color-sage-200: #ffdbc2;
+  --color-sage-300: #feba8a;
+  --color-sage-400: #fd9550;
+  --color-sage-500: #fc7a2b;
+  --color-sage-600: #ff751f;
+  --color-sage-700: #cc5800;
+  --color-sage-800: #a34400;
+  --color-sage-900: #7a3400;
+  --color-sage-950: #3d1800;
+  --color-cream-50: #fefcf9;
+  --color-cream-100: #fdf5ed;
+  --color-cream-200: #fbead8;
+  --color-cream-300: #f8daba;
+  --color-cream-400: #f3c594;
+  --color-cream-500: #edab6c;
+  --color-cream-600: #e08c4a;
+  --color-cream-700: #c4703b;
+  --color-cream-800: #a35a34;
+  --color-cream-900: #874b2f;
+  --color-cream-950: #462517;
+  --color-warm-50: #edfafd;
+  --color-warm-100: #d1f1f9;
+  --color-warm-200: #abe6f3;
+  --color-warm-300: #6ed4ea;
+  --color-warm-400: #33c0db;
+  --color-warm-500: #0da7c5;
+  --color-warm-600: #0097b2;
+  --color-warm-700: #007a93;
+  --color-warm-800: #006177;
+  --color-warm-900: #02526a;
+  --color-warm-950: #013442;
 }
 
 * { -webkit-tap-highlight-color: transparent; }
@@ -94,8 +94,8 @@ body {
 }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 8px rgba(99, 108, 85, 0.15); }
-  50% { box-shadow: 0 0 20px rgba(99, 108, 85, 0.25); }
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 117, 31, 0.15); }
+  50% { box-shadow: 0 0 20px rgba(255, 117, 31, 0.25); }
 }
 
 @keyframes shimmer {
@@ -146,14 +146,14 @@ body {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(209, 213, 201, 0.3);
+  border: 1px solid rgba(255, 219, 194, 0.3);
 }
 
 .glass-strong {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(209, 213, 201, 0.5);
+  border: 1px solid rgba(255, 219, 194, 0.5);
 }
 
 /* Hide scrollbar */
@@ -164,7 +164,7 @@ body {
 .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
 /* Selection */
-::selection { background: var(--color-sage-200); color: var(--color-sage-800); }
+::selection { background: var(--color-sage-200); color: var(--color-sage-900); }
 
 /* Focus ring */
 *:focus-visible {
@@ -179,7 +179,7 @@ body {
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(99, 108, 85, 0.1);
+  box-shadow: 0 8px 25px rgba(255, 117, 31, 0.1);
 }
 .card-hover:active {
   transform: translateY(0);

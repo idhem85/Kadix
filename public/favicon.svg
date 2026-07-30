@@ -1,60 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#636c55"/>
-      <stop offset="100%" stop-color="#4e5542"/>
-    </linearGradient>
-    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#d4a55e"/>
-      <stop offset="100%" stop-color="#c58f4a"/>
+      <stop offset="0%" stop-color="#ff751f"/>
+      <stop offset="100%" stop-color="#e05a00"/>
     </linearGradient>
   </defs>
   
-  <!-- Rounded container -->
-  <rect x="20" y="20" width="472" height="472" rx="108" fill="url(#bg)"/>
+  <!-- Rounded background -->
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#bg)"/>
+  <rect x="28" y="28" width="456" height="456" rx="96" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
   
-  <!-- Subtle inner border -->
-  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
-  
-  <!-- Shopping bag body -->
-  <g transform="translate(256, 180)">
-    <!-- Bag handle (curved) -->
-    <path d="M -40 -50 Q -45 -90 -10 -100 Q 15 -105 25 -95 Q 50 -85 45 -50" 
-          fill="none" stroke="white" stroke-width="8" stroke-linecap="round"/>
+  <!-- Icon symbol (scaled from original) -->
+  <g transform="translate(256, 260) scale(0.28)">
+    <!-- Top handles/ears (orange in original, white here) -->
+    <path fill="rgba(255,255,255,0.9)" d="M 0 -52 C 11 -52 20 -61 20 -73 L 20 -113 C 20 -165 62 -208 115 -208 C 167 -208 210 -165 210 -113 L 210 -73 C 210 -61 219 -52 231 -52 C 242 -52 252 -61 252 -73 L 252 -107 C 252 -180 197 -244 124 -249 C 45 -254 -21 -191 -21 -113 L -21 -73 C -21 -61 -12 -52 0 -52 Z"/>
     
-    <!-- Bag body -->
-    <path d="M -68 -45 L 68 -45 L 55 140 L -55 140 Z" fill="white" opacity="0.95" rx="12"/>
+    <!-- Main body (teal in original, white here) -->
+    <path fill="white" d="M 439 490 L 393 44 C 389 8 359 -18 324 -18 L -92 -18 C -128 -18 -158 9 -161 44 L -173 155 C -180 230 -110 288 -38 266 L 0 254 C 45 240 94 263 111 312 C 117 329 117 348 111 365 L 94 421 C 70 498 128 577 209 577 L 360 577 C 406 577 443 536 439 490 Z"/>
     
-    <!-- Bag bottom curve -->
-    <path d="M -55 140 Q 0 160 55 140" fill="none" stroke="white" stroke-width="2"/>
-    
-    <!-- Leaf/sprout growing from bag -->
-    <g transform="translate(10, -20)">
-      <path d="M -8 10 Q -25 -30 0 -65 Q 25 -40 12 10 Z" fill="url(#accent)" opacity="0.7"/>
-      <path d="M 0 -5 Q 15 -25 30 -20 Q 20 -5 5 5 Z" fill="url(#accent)" opacity="0.5"/>
-      <!-- Leaf vein -->
-      <path d="M 0 0 Q -10 -20 3 -45" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-    </g>
-    
-    <!-- Decorative dots -->
-    <circle cx="-25" cy="30" r="4" fill="rgba(78,69,66,0.15)"/>
-    <circle cx="25" cy="50" r="3" fill="rgba(78,69,66,0.15)"/>
-    <circle cx="-10" cy="70" r="2.5" fill="rgba(78,69,66,0.10)"/>
-  </g>
-  
-  <!-- Brand name: KADIX -->
-  <g transform="translate(256, 340)">
-    <text x="0" y="0" font-family="'Inter', 'SF Pro Display', system-ui, sans-serif" 
-          font-size="64" font-weight="800" fill="white" text-anchor="middle" 
-          letter-spacing="12">
-      <tspan>K</tspan><tspan fill="url(#accent)">A</tspan><tspan>DIX</tspan>
-    </text>
-    <!-- Subtitle line -->
-    <rect x="-80" y="30" width="160" height="2" fill="rgba(255,255,255,0.2)" rx="1"/>
-    <text x="0" y="52" font-family="'Inter', system-ui, sans-serif" 
-          font-size="14" font-weight="500" fill="rgba(255,255,255,0.5)" 
-          text-anchor="middle" letter-spacing="6">
-      LISTE DE COURSES
-    </text>
+    <!-- Bottom accent (orange in original, white here) -->
+    <path fill="rgba(255,255,255,0.85)" d="M 15 302 L -209 370 C -242 380 -244 426 -213 439 L -159 462 C -131 474 -108 496 -96 525 L -74 578 C -60 610 -15 608 -5 575 L 63 350 C 72 320 45 293 15 302 Z"/>
   </g>
 </svg>

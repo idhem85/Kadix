@@ -2,14 +2,20 @@
   
   <br/>
   
-  <div>
-    <img src="public/icons/icon-192x192.png" alt="Kadix Logo" width="96" height="96" style="border-radius: 24px;" />
-  </div>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="public/favicon.svg">
+    <img src="public/favicon.svg" alt="Kadix Logo" width="120" height="120" />
+  </picture>
   
   <h1 align="center" style="font-size: 3rem; margin: 0.5rem 0 0.25rem; color: #4e5542;">Kadix</h1>
   
-  <p align="center" style="font-size: 1.25rem; color: #7d876e; margin-bottom: 1.5rem;">
-    🛒 <strong>Votre liste de courses collaborative et intelligente</strong>
+  <p align="center" style="font-size: 1.15rem; color: #7d876e; margin-bottom: 1rem;">
+    🛒 La liste de courses qui a du goût.
+  </p>
+
+  <p align="center" style="font-size: 0.9rem; color: #99a18a; max-width: 500px; margin: 0 auto 1.5rem;">
+    <em>Collaborative, intelligente et disponible hors-ligne. Ajoutez vos articles, partagez votre liste en temps réel, 
+    laissez-vous inspirer par des recettes qui matchent vos habitudes. Installable sur votre téléphone.</em>
   </p>
 
   <p align="center">
@@ -19,47 +25,16 @@
     <img src="https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white&style=flat-square" alt="Tailwind CSS v4" />
     <img src="https://img.shields.io/badge/Supabase-2-3FCF8E?logo=supabase&logoColor=white&style=flat-square" alt="Supabase" />
     <img src="https://img.shields.io/badge/PWA-✅-5A0FC8?logo=pwa&logoColor=white&style=flat-square" alt="PWA" />
+    <img src="https://img.shields.io/badge/Cloudflare-Pages-F38020?logo=cloudflare&logoColor=white&style=flat-square" alt="Cloudflare Pages" />
   </p>
-
-  <br/>
 
   <div align="center" style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
     <a href="#✨-fonctionnalités">✨ Fonctionnalités</a> •
-    <a href="#📸-captures-décran">📸 Captures</a> •
     <a href="#🚀-démarrage-rapide">🚀 Démarrage</a> •
     <a href="#🏗️-architecture">🏗️ Architecture</a> •
-    <a href="#🗄️-supabase">🗄️ Supabase</a> •
-    <a href="#📦-déploiement">📦 Déploiement</a>
+    <a href="#☁️-déploiement-cloudflare">☁️ Cloudflare</a> •
+    <a href="#🗄️-supabase">🗄️ Supabase</a>
   </div>
-
-  <br/>
-
-  <table align="center">
-    <tr>
-      <td align="center" width="25%">
-        <strong>🛍️</strong><br/>
-        <sub>Ma Liste</sub>
-      </td>
-      <td align="center" width="25%">
-        <strong>📦</strong><br/>
-        <sub>Habitudes</sub>
-      </td>
-      <td align="center" width="25%">
-        <strong>💡</strong><br/>
-        <sub>Recettes</sub>
-      </td>
-      <td align="center" width="25%">
-        <strong>👥</strong><br/>
-        <sub>Partage</sub>
-      </td>
-    </tr>
-    <tr>
-      <td align="center"><sub>Courses en cours avec tri par rayon</sub></td>
-      <td align="center"><sub>Produits fréquents en un clic</sub></td>
-      <td align="center"><sub>Suggestions personnalisées</sub></td>
-      <td align="center"><sub>Listes collaboratives temps réel</sub></td>
-    </tr>
-  </table>
 
   <br/>
 </div>
@@ -115,108 +90,73 @@
 
 ---
 
-## 📸 Captures d'écran
+## ☁️ Déploiement Cloudflare Pages
 
-<div align="center">
-  
-*Bientôt disponible — Mockups et démo en ligne*
-  
-| Ma Liste | Habitudes | Recettes | Partage |
-|---|---|---|---|
-| *Liste de courses* | *Produits fréquents* | *Suggestions* | *Invitation* |
+Kadix est optimisé pour Cloudflare Pages. Le déploiement se fait en 2 clics :
 
-</div>
+### Option 1 : Via le tableau de bord Cloudflare (recommandé)
+
+1. Allez sur [dash.cloudflare.com](https://dash.cloudflare.com) → **Pages** → **Créer un projet**
+2. Connectez votre dépôt GitHub `idhem85/Kadix`
+3. Utilisez ces paramètres :
+
+| Paramètre | Valeur |
+|---|---|
+| **Framework** | `Vite` (détection auto) |
+| **Build command** | `npm run build` |
+| **Build output** | `dist` |
+| **Root directory** | (laisser vide) |
+
+4. Ajoutez les variables d'environnement :
+
+| Variable | Valeur |
+|---|---|
+| `VITE_SUPABASE_URL` | `https://votre-projet.supabase.co` |
+| `VITE_SUPABASE_ANON_KEY` | `votre-clé-anonyme` |
+
+5. **Activer le SPA mode** : Dans les paramètres du projet → **Routing** → activer **SPA mode**
+6. Cliquez sur **Déployer** 🚀
+
+### Option 2 : Via Wrangler CLI
+
+```bash
+# Installer Wrangler
+npm install -g wrangler
+
+# Se connecter à Cloudflare
+wrangler login
+
+# Déployer
+wrangler pages deploy dist/ --project-name=kadix --branch=main
+```
+
+### Fichiers de configuration inclus
+
+| Fichier | Utilité |
+|---|---|
+| `public/_headers` | En-têtes de cache pour le Service Worker |
+| `public/_redirects` | Fallback SPA (/* → /index.html) |
+| `vercel.json` | Alternative Vercel |
+| `netlify.toml` | Alternative Netlify |
 
 ---
 
 ## 🚀 Démarrage rapide
 
-### Prérequis
-- Node.js 22+
-- npm 10+
-- Compte Supabase (gratuit)
-
-### Installation
-
 ```bash
-# 1. Cloner le projet
-git clone https://github.com/idhem85/Kadix.git
-cd Kadix
+# 1. Cloner
+git clone https://github.com/idhem85/Kadix.git && cd Kadix
 
-# 2. Installer les dépendances
+# 2. Installer
 npm install
 
-# 3. Copier le fichier d'environnement
+# 3. Configurer Supabase
 cp .env.example .env
+# Éditer .env avec vos clés Supabase
 
-# 4. ⚠️ Configurer Supabase (voir section ci-dessous)
-# Remplacer VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY dans .env
-
-# 5. Lancer en développement
-npm run dev
-
-# 6. Build production
-npm run build
-```
-
-### Générer les icônes PWA (optionnel)
-
-```bash
-node scripts/generate-icons.js
-```
-
----
-
-## 🗄️ Supabase
-
-### 1. Créer un projet
-Aller sur [supabase.com](https://supabase.com) → **New project**
-
-### 2. Appliquer le schéma
-Dans votre projet Supabase → **SQL Editor** → coller le contenu de `supabase/schema.sql`
-
-### 3. Récupérer les clés
-**Project Settings → API** :
-- **URL** → `VITE_SUPABASE_URL`
-- **anon public key** → `VITE_SUPABASE_ANON_KEY`
-
-### 4. Activer Realtime
-**Database → Replication** → activer le flag pour la table `grocery_items`
-
-### Schéma de données
-
-```
-📁 auth.users (géré par Supabase)
-└── 📁 profiles
-    ├── 📁 shopping_lists
-    │   ├── 📁 list_members (collaborateurs)
-    │   └── 📁 grocery_items (articles de la liste)
-    ├── 📁 pantry_items (habitudes d'achat)
-    └── 📁 recipes (recettes suggérées)
-```
-
-> **8 tables** avec RLS policies, indexes, triggers, et 5 recettes pré-remplissées.
-
----
-
-## 📦 Déploiement
-
-Kadix est prêt à être déployé sur **Vercel**, **Netlify** ou **Cloudflare Pages**.
-
-### Fichiers de configuration inclus
-
-| Plateforme | Fichier | SPA Routing | SW Cache |
-|---|---|---|---|
-| **Vercel** | `vercel.json` | ✅ Rewrites | ✅ Headers |
-| **Netlify** | `netlify.toml` + `public/_redirects` | ✅ Redirects | ✅ Headers |
-| **Cloudflare** | `public/_headers` + mode SPA | ✅ Dashboard | ✅ Headers |
-
-### Déploiement express (Vercel)
-
-```bash
-npm install -g vercel
-vercel
-# Suivez les instructions — Vercel détecte automatiquement la config
+# 4. Lancer
+npm run dev     # → http://localhost:5173
+npm run build   # → dist/
 ```
 
 ---
@@ -225,73 +165,64 @@ vercel
 
 ```
 src/
-├── main.tsx              # Entry point + SW registration
-├── App.tsx               # App root + tabs + offline banner
+├── App.tsx               # App root + tabs + offline
 ├── index.css             # Tailwind + thème sage/cream
-│
-├── types/index.ts        # Types, catégories, 200+ produits
-├── store/groceryStore.ts # Zustand — tabs, items, pantry, sync
+├── types/index.ts        # Types + 200+ produits
+├── store/groceryStore.ts # Zustand (tabs, items, pantry, sync)
 │
 ├── lib/
 │   ├── supabase.ts       # Client Supabase
 │   ├── db.ts             # Offline-first DB layer
-│   ├── indexeddb.ts      # IndexedDB wrapper (cache + queue)
-│   ├── offline.ts        # Sync queue + cache management
-│   └── recipes.ts        # Moteur de suggestion de recettes
+│   ├── indexeddb.ts      # IndexedDB wrapper
+│   ├── offline.ts        # Sync queue + cache
+│   └── recipes.ts        # Moteur de suggestion
 │
 ├── hooks/
-│   ├── useAuth.ts        # Auth Supabase (signup/signin)
+│   ├── useAuth.ts        # Auth Supabase
 │   ├── useRealtime.ts    # Subscriptions temps réel
-│   └── useOffline.ts     # Sync engine + periodic sync
+│   └── useOffline.ts     # Sync engine
 │
 ├── components/
-│   ├── Layout.tsx        # Header + sync status + auth modal
+│   ├── Layout.tsx        # Header + sync status
 │   ├── BottomNav.tsx     # Navigation 3 onglets
-│   ├── ShareSheet.tsx    # Partage par code/lien/QR
-│   │
-│   ├── ShoppingList/     # Liste de courses
-│   │   ├── index.tsx     # Items groupés par catégorie
-│   │   ├── AddItemInput.tsx  # Auto-complétion
-│   │   └── GroceryItem.tsx   # Checkbox + swipe delete
-│   │
-│   ├── Pantry/           # Habitudes
-│   │   └── index.tsx     # Grille de produits + recherche
-│   │
-│   └── Recipes/          # Recettes
-│       ├── index.tsx     # Suggestions analysées
-│       └── RecipeCard.tsx # Détail + match ingrédients
+│   ├── ShareSheet.tsx    # Partage par code
+│   ├── ShoppingList/     # Articles + auto-complétion
+│   ├── Pantry/           # Habitudes + recherche
+│   └── Recipes/          # Recettes + match ingrédients
 │
 ├── public/
-│   ├── sw.js             # Service Worker (offline-first)
+│   ├── sw.js             # Service Worker
 │   ├── manifest.json     # PWA manifest
-│   ├── icons/            # Icônes PWA (72→512px)
-│   ├── _headers          # Cloudflare/Netlify headers
-│   └── _redirects        # Netlify SPA fallback
+│   ├── favicon.svg       # Logo
+│   ├── icons/            # Icônes PWA
+│   ├── _headers          # Cloudflare headers
+│   └── _redirects        # SPA routing
 │
-└── supabase/schema.sql   # Schéma DB + seed
+└── supabase/schema.sql   # Schéma DB + 5 recettes
 ```
 
 ### Stack technique
 
-| Technologie | Version | Usage |
-|---|---|---|
-| **React** | 19 | UI Components |
-| **TypeScript** | 6 | Typage strict |
-| **Vite** | 8 | Build & HMR |
-| **Tailwind CSS** | 4 | Design system |
-| **Supabase** | 2 | BDD, Auth, Realtime |
-| **Zustand** | 5 | State management |
-| **Lucide React** | 1 | Icônes |
-| **IndexedDB** | — | Cache offline |
+| Technologie | Rôle |
+|---|---|
+| **React 19** + **TypeScript 6** | UI & typage |
+| **Vite 8** + **Tailwind CSS 4** | Build & design |
+| **Supabase** | BDD PostgreSQL, Auth, Realtime |
+| **Zustand 5** | State management |
+| **Lucide React** | Icônes |
+| **IndexedDB** | Cache offline |
+| **Cloudflare Pages** | Hébergement |
 
 ---
 
-## 🎨 Design
+## 🗄️ Supabase
 
-- **Palette** : Vert sauge (`sage`) + Crème (`cream`) + Accents chauds (`warm`)
-- **Mobile-first** : Navigation basse, utilisation à une main
-- **Animations** : slide-up, fade-in, check-pop, transition fluides
-- **Thème** : Fond crème doux, accents naturels, typographie Inter
+1. Créer un projet sur [supabase.com](https://supabase.com)
+2. SQL Editor → coller `supabase/schema.sql`
+3. Settings → API → récupérer URL + anon key
+4. Database → Replication → activer `grocery_items`
+
+> **8 tables**, RLS policies, triggers, indexes et 5 recettes pré-remplies.
 
 ---
 
@@ -303,12 +234,11 @@ MIT © [Idhem ALAOUI](https://github.com/idhem85)
 
 <div align="center">
   <br/>
-  <sub>Fait avec ❤️ et 🥖 à Toulouse</sub>
+  <sub>Fait avec ❤️ à Toulouse</sub>
   <br/><br/>
-  
-  [![GitHub stars](https://img.shields.io/github/stars/idhem85/Kadix?style=social)](https://github.com/idhem85/Kadix/stargazers)
-  [![GitHub forks](https://img.shields.io/github/forks/idhem85/Kadix?style=social)](https://github.com/idhem85/Kadix/forks)
-  
+  <a href="https://github.com/idhem85/Kadix/stargazers">
+    <img src="https://img.shields.io/github/stars/idhem85/Kadix?style=social" alt="GitHub stars" />
+  </a>
   <br/>
-  <sub>⭐ N'oubliez pas de mettre une étoile si le projet vous plaît !</sub>
+  <sub>⭐ N'oubliez pas l'étoile si le projet vous plaît !</sub>
 </div>

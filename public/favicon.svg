@@ -1,4 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#636c55"/>
-  <text x="32" y="44" font-family="system-ui, sans-serif" font-size="36" font-weight="bold" fill="white" text-anchor="middle">K</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#636c55"/>
+      <stop offset="100%" stop-color="#4e5542"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d4a55e"/>
+      <stop offset="100%" stop-color="#c58f4a"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background rounded square -->
+  <rect x="40" y="40" width="432" height="432" rx="96" fill="url(#grad)"/>
+  
+  <!-- Decorative accent curve -->
+  <path d="M 40 320 Q 160 280 200 180" stroke="url(#accent)" stroke-width="8" fill="none" opacity="0.3"/>
+  <path d="M 472 200 Q 340 240 310 340" stroke="url(#accent)" stroke-width="6" fill="none" opacity="0.2"/>
+  
+  <!-- Shopping leaf icon (top-right decorative) -->
+  <g transform="translate(320, 120)" opacity="0.9">
+    <path d="M 0 30 Q 20 0 50 10 Q 35 20 30 35 Q 20 40 10 38 Q 5 40 0 30 Z" 
+          fill="url(#accent)" opacity="0.6"/>
+    <line x1="25" y1="18" x2="15" y2="40" stroke="#d4a55e" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+  </g>
+  
+  <!-- Main letter K -->
+  <g transform="translate(256, 256)">
+    <!-- Vertical stroke -->
+    <rect x="-32" y="-120" width="52" height="240" rx="18" fill="white"/>
+    
+    <!-- Upper arm -->
+    <path d="M 20 -120 Q 60 -80 100 -30 L 80 0 Q 40 -50 20 -60 Z" fill="white"/>
+    <path d="M 20 -60 Q 60 -50 120 20 Q 100 50 20 5 Z" fill="white"/>
+    
+    <!-- Lower arm -->
+    <path d="M 20 5 Q 80 40 120 90 Q 100 120 20 60 Z" fill="white"/>
+    
+    <!-- Subtle dot accent -->
+    <circle cx="75" cy="-75" r="8" fill="url(#accent)"/>
+  </g>
+  
+  <!-- Small sparkles -->
+  <g opacity="0.4">
+    <circle cx="140" cy="150" r="5" fill="white"/>
+    <circle cx="165" cy="135" r="3" fill="white"/>
+    <circle cx="370" cy="360" r="4" fill="white"/>
+  </g>
 </svg>

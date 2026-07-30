@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sage-50: #f6f7f4;
+  --color-sage-100: #e8ebe2;
+  --color-sage-200: #d1d5c9;
+  --color-sage-300: #b5bba9;
+  --color-sage-400: #99a18a;
+  --color-sage-500: #7d876e;
+  --color-sage-600: #636c55;
+  --color-sage-700: #4e5542;
+  --color-sage-800: #3f4536;
+  --color-sage-900: #363b2f;
+  --color-sage-950: #1b1e17;
+
+  --color-cream-50: #fdfbf7;
+  --color-cream-100: #f9f4e8;
+  --color-cream-200: #f1e6cd;
+  --color-cream-300: #e8d4a8;
+  --color-cream-400: #ddbc7e;
+  --color-cream-500: #d4a55e;
+  --color-cream-600: #c58f4a;
+  --color-cream-700: #a4743e;
+  --color-cream-800: #855e38;
+  --color-cream-900: #6d4e32;
+  --color-cream-950: #3a281a;
+
+  --color-warm-50: #fef5ee;
+  --color-warm-100: #fde8d7;
+  --color-warm-200: #facdae;
+  --color-warm-300: #f6aa7b;
+  --color-warm-400: #f18046;
+  --color-warm-500: #ee6325;
+  --color-warm-600: #df4b1a;
+  --color-warm-700: #b93717;
+  --color-warm-800: #932d1a;
+  --color-warm-900: #772818;
+  --color-warm-950: #40120a;
+}
+
+/* Reset et base */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-sage-300);
+  border-radius: 99px;
+}
+
+/* Animations personnalisées */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes check-pop {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.animate-check-pop {
+  animation: check-pop 0.3s ease-out;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Safe area for notched phones */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

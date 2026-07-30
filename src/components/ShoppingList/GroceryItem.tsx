@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Check, Trash2 } from 'lucide-react';
 import type { GroceryItem as GroceryItemType } from '../../types';
+import { getProductEmoji, getCategoryEmoji } from '../../types';
 
 interface GroceryItemProps {
   item: GroceryItemType;
@@ -8,8 +9,27 @@ interface GroceryItemProps {
   onDelete: (id: string) => void;
 }
 
+const categoryThemes: Record<string, { dot: string; bg: string; border: string; glow: string }> = {
+  'Fruits & Légumes': { dot: 'bg-green-400', bg: 'from-green-50/80', border: 'border-green-200/50', glow: 'shadow-green-200/30' },
+  'Produits Laitiers': { dot: 'bg-blue-400', bg: 'from-blue-50/80', border: 'border-blue-200/50', glow: 'shadow-blue-200/30' },
+  'Viandes & Poissons': { dot: 'bg-rose-400', bg: 'from-rose-50/80', border: 'border-rose-200/50', glow: 'shadow-rose-200/30' },
+  'Épicerie': { dot: 'bg-amber-400', bg: 'from-amber-50/80', border: 'border-amber-200/50', glow: 'shadow-amber-200/30' },
+  'Boulangerie': { dot: 'bg-orange-400', bg: 'from-orange-50/80', border: 'border-orange-200/50', glow: 'shadow-orange-200/30' },
+  'Boissons': { dot: 'bg-cyan-400', bg: 'from-cyan-50/80', border: 'border-cyan-200/50', glow: 'shadow-cyan-200/30' },
+  'Surgelés': { dot: 'bg-indigo-400', bg: 'from-indigo-50/80', border: 'border-indigo-200/50', glow: 'shadow-indigo-200/30' },
+  'Hygiène & Maison': { dot: 'bg-purple-400', bg: 'from-purple-50/80', border: 'border-purple-200/50', glow: 'shadow-purple-200/30' },
+  'Frais & Traiteur': { dot: 'bg-teal-400', bg: 'from-teal-50/80', border: 'border-teal-200/50', glow: 'shadow-teal-200/30' },
+  'Bio & Diététique': { dot: 'bg-lime-400', bg: 'from-lime-50/80', border: 'border-lime-200/50', glow: 'shadow-lime-200/30' },
+};
+
+const defaultTheme = { dot: 'bg-sage-400', bg: 'from-sage-50/80', border: 'border-sage-200/50', glow: 'shadow-sage-200/30' };
+
 export default function GroceryItem({ item, onToggle, onDelete }: GroceryItemProps) {
   const [isRemoving, setIsRemoving] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const emoji = getProductEmoji(item.name);
+  const theme = categoryThemes[item.category] || defaultTheme;
 
   const handleToggle = () => {
     onToggle(item.id, !item.is_checked);
@@ -17,82 +37,112 @@ export default function GroceryItem({ item, onToggle, onDelete }: GroceryItemPro
 
   const handleDelete = () => {
     setIsRemoving(true);
-    setTimeout(() => onDelete(item.id), 200);
+    setTimeout(() => onDelete(item.id), 250);
   };
-
-  const categoryColors: Record<string, string> = {
-    'Fruits & Légumes': 'bg-green-100 text-green-700 border-green-200',
-    'Produits Laitiers': 'bg-blue-100 text-blue-700 border-blue-200',
-    'Viandes & Poissons': 'bg-rose-100 text-rose-700 border-rose-200',
-    'Épicerie': 'bg-amber-100 text-amber-700 border-amber-200',
-    'Boulangerie': 'bg-orange-100 text-orange-700 border-orange-200',
-    'Boissons': 'bg-cyan-100 text-cyan-700 border-cyan-200',
-    'Surgelés': 'bg-indigo-100 text-indigo-700 border-indigo-200',
-    'Hygiène & Maison': 'bg-purple-100 text-purple-700 border-purple-200',
-    'Frais & Traiteur': 'bg-teal-100 text-teal-700 border-teal-200',
-    'Bio & Diététique': 'bg-lime-100 text-lime-700 border-lime-200',
-  };
-
-  const categoryColor = categoryColors[item.category] || 'bg-sage-100 text-sage-600 border-sage-200';
 
   return (
     <div
-      className={`group flex items-center gap-3 px-4 py-3 bg-white rounded-2xl border border-sage-100 transition-all duration-300 ${
-        item.is_checked
-          ? 'opacity-50 scale-[0.98]'
-          : 'opacity-100 hover:border-sage-200 hover:shadow-sm'
-      } ${
-        isRemoving ? 'opacity-0 scale-95 -translate-y-2' : 'animate-slide-up'
-      }`}
+      className={`group relative overflow-hidden transition-all duration-300 rounded-2xl
+        ${item.is_checked
+          ? 'opacity-55 scale-[0.97]'
+          : 'hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.99]'
+        }
+        ${isRemoving ? 'opacity-0 -translate-x-full scale-95' : 'animate-slide-up'}
+      `}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Checkbox */}
-      <button
-        onClick={handleToggle}
-        className={`relative w-7 h-7 rounded-xl border-2 flex items-center justify-center shrink-0 transition-all duration-200 ${
-          item.is_checked
-            ? 'bg-sage-600 border-sage-600 text-white animate-check-pop'
-            : 'border-sage-300 hover:border-sage-500 hover:bg-sage-50'
-        }`}
-        aria-label={item.is_checked ? 'Décocher' : 'Cocher'}
-      >
-        {item.is_checked && <Check size={16} strokeWidth={3} />}
-      </button>
+      {/* Background gradient */}
+      <div className={`absolute inset-0 bg-gradient-to-r ${theme.bg} to-white rounded-2xl ${item.is_checked ? 'opacity-60' : ''}`} />
 
-      {/* Content */}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <span
-            className={`text-[15px] font-medium transition-all duration-200 ${
-              item.is_checked
-                ? 'line-through text-sage-400'
-                : 'text-sage-800'
+      {/* Left color accent bar */}
+      <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl ${theme.dot} ${item.is_checked ? 'opacity-40' : ''}`} />
+
+      {/* Checked overlay line */}
+      {item.is_checked && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-full h-px bg-sage-200/50" />
+        </div>
+      )}
+
+      <div className="relative flex items-center gap-3 px-4 py-3.5">
+        {/* Checkbox */}
+        <button
+          onClick={handleToggle}
+          className={`relative w-8 h-8 rounded-xl border-2 flex items-center justify-center shrink-0 transition-all duration-300
+            ${item.is_checked
+              ? 'bg-sage-600 border-sage-600 text-white shadow-md shadow-sage-600/30'
+              : 'border-sage-300 hover:border-sage-500 hover:bg-sage-50 hover:shadow-sm'
             }`}
-          >
-            {item.name}
+          aria-label={item.is_checked ? 'Décocher' : 'Cocher'}
+        >
+          <span className={`transition-transform duration-300 ${item.is_checked ? 'scale-100 animate-check-pop' : 'scale-0'}`}>
+            <Check size={18} strokeWidth={3} />
           </span>
-          {item.quantity && (
-            <span className={`text-sm shrink-0 ${
-              item.is_checked ? 'text-sage-300' : 'text-sage-500'
-            }`}>
-              {item.quantity}{item.unit ? ` ${item.unit}` : ''}
-            </span>
-          )}
+        </button>
+
+        {/* Product emoji icon */}
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 transition-all duration-300
+          ${item.is_checked
+            ? 'bg-sage-100/50 scale-95'
+            : 'bg-white shadow-sm border border-sage-100 group-hover:scale-105'
+          }`}
+        >
+          {emoji}
         </div>
 
-        {/* Category badge */}
-        <span className={`inline-block mt-1 px-2 py-0.5 text-[10px] font-medium rounded-full border ${categoryColor}`}>
-          {item.category}
-        </span>
-      </div>
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span
+              className={`text-[15px] font-semibold transition-all duration-300 truncate
+                ${item.is_checked
+                  ? 'line-through text-sage-400'
+                  : 'text-sage-800'
+                }`}
+            >
+              {item.name}
+            </span>
+            {item.quantity && (
+              <span className={`text-sm font-medium shrink-0 px-2 py-0.5 rounded-lg transition-all duration-300
+                ${item.is_checked
+                  ? 'bg-sage-100/50 text-sage-400'
+                  : 'bg-sage-100 text-sage-600'
+                }`}
+              >
+                {item.quantity}{item.unit ? <span className="text-[10px] ml-0.5">{item.unit}</span> : ''}
+              </span>
+            )}
+          </div>
 
-      {/* Delete button */}
-      <button
-        onClick={handleDelete}
-        className="w-8 h-8 rounded-xl flex items-center justify-center text-sage-300 hover:text-red-500 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all duration-200"
-        aria-label="Supprimer"
-      >
-        <Trash2 size={16} />
-      </button>
+          {/* Category chip */}
+          <div className="flex items-center gap-1.5 mt-1">
+            <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-medium rounded-full border transition-all
+              ${item.is_checked
+                ? 'bg-sage-50 text-sage-400 border-sage-100'
+                : 'bg-white text-sage-500 border-sage-200/70'
+              }`}
+            >
+              <span className="text-[11px]">{getCategoryEmoji(item.category)}</span>
+              {item.category}
+            </span>
+          </div>
+        </div>
+
+        {/* Delete button */}
+        <button
+          onClick={handleDelete}
+          className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300
+            ${isHovered
+              ? 'text-red-400 bg-red-50 hover:bg-red-100 hover:text-red-500 opacity-100'
+              : 'text-sage-300 opacity-0 group-hover:opacity-100'
+            }
+          `}
+          aria-label="Supprimer"
+        >
+          <Trash2 size={15} />
+        </button>
+      </div>
     </div>
   );
 }

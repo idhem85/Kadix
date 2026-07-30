@@ -1,42 +1,30 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Plus, X } from 'lucide-react';
-import { COMMON_PRODUCTS } from '../../types';
+import { Plus, X, Sparkles } from 'lucide-react';
+import { COMMON_PRODUCTS, getCategoryEmoji, getProductEmoji } from '../../types';
+import { guessCategory } from '../../lib/categories';
 
 interface AddItemInputProps {
   onAdd: (name: string, category: string) => void;
-}
-
-// Guess category from product name
-function guessCategory(name: string): string {
-  const normalized = name.toLowerCase().trim();
-  
-  for (const [category, products] of Object.entries(COMMON_PRODUCTS)) {
-    if (products.some((p) => p.toLowerCase().includes(normalized) || normalized.includes(p.toLowerCase()))) {
-      return category;
-    }
-  }
-  return 'Autre';
 }
 
 export default function AddItemInput({ onAdd }: AddItemInputProps) {
   const [value, setValue] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedSuggestion, setSelectedSuggestion] = useState(-1);
+  const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
 
-  // Get all unique suggestions
   const allProducts = Object.values(COMMON_PRODUCTS).flat();
   const suggestions = value.trim()
     ? allProducts.filter((p) =>
         p.toLowerCase().includes(value.toLowerCase())
-      ).slice(0, 8)
+      ).slice(0, 6)
     : [];
 
   const handleAdd = useCallback(() => {
     const trimmed = value.trim();
     if (!trimmed) return;
-
     const category = guessCategory(trimmed);
     onAdd(trimmed, category);
     setValue('');
@@ -58,9 +46,7 @@ export default function AddItemInput({ onAdd }: AddItemInputProps) {
       }
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setSelectedSuggestion((prev) =>
-        Math.min(prev + 1, suggestions.length - 1)
-      );
+      setSelectedSuggestion((prev) => Math.min(prev + 1, suggestions.length - 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setSelectedSuggestion((prev) => Math.max(prev - 1, -1));
@@ -70,14 +56,11 @@ export default function AddItemInput({ onAdd }: AddItemInputProps) {
     }
   };
 
-  // Hide suggestions on click outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
-        suggestionsRef.current &&
-        !suggestionsRef.current.contains(e.target as Node) &&
-        inputRef.current &&
-        !inputRef.current.contains(e.target as Node)
+        suggestionsRef.current && !suggestionsRef.current.contains(e.target as Node) &&
+        inputRef.current && !inputRef.current.contains(e.target as Node)
       ) {
         setShowSuggestions(false);
       }
@@ -88,7 +71,21 @@ export default function AddItemInput({ onAdd }: AddItemInputProps) {
 
   return (
     <div className="relative">
-      <div className="flex items-center gap-2 bg-white border-2 border-sage-200 focus-within:border-sage-400 rounded-2xl px-4 py-3 transition-all duration-200 shadow-sm">
+      {/* Main input bar */}
+      <div
+        className={`flex items-center gap-2 rounded-2xl px-4 py-3 transition-all duration-300
+          bg-white/90 backdrop-blur-sm border-2 shadow-sm
+          ${isFocused
+            ? 'border-sage-400 shadow-lg shadow-sage-200/30'
+            : 'border-sage-200 hover:border-sage-300'
+          }
+        `}
+      >
+        {/* Category icon hint */}
+        <span className="text-lg shrink-0">
+          {value.trim() ? getProductEmoji(value.trim()) : '🛒'}
+        </span>
+
         <input
           ref={inputRef}
           type="text"
@@ -98,21 +95,18 @@ export default function AddItemInput({ onAdd }: AddItemInputProps) {
             setShowSuggestions(true);
             setSelectedSuggestion(-1);
           }}
-          onFocus={() => setShowSuggestions(true)}
+          onFocus={() => { setShowSuggestions(true); setIsFocused(true); }}
+          onBlur={() => setIsFocused(false)}
           onKeyDown={handleKeyDown}
           placeholder="Ajouter un article..."
-          className="flex-1 bg-transparent text-sage-800 placeholder-sage-400 outline-none text-[15px]"
+          className="flex-1 bg-transparent text-sage-800 placeholder-sage-400 outline-none text-[15px] font-medium"
           autoComplete="off"
         />
 
         {value && (
           <button
-            onClick={() => {
-              setValue('');
-              setShowSuggestions(false);
-              inputRef.current?.focus();
-            }}
-            className="w-6 h-6 rounded-full flex items-center justify-center text-sage-400 hover:text-sage-600 hover:bg-sage-100 transition-all"
+            onClick={() => { setValue(''); setShowSuggestions(false); inputRef.current?.focus(); }}
+            className="w-7 h-7 rounded-full flex items-center justify-center text-sage-400 hover:text-sage-600 hover:bg-sage-100 transition-all"
           >
             <X size={14} />
           </button>
@@ -121,9 +115,12 @@ export default function AddItemInput({ onAdd }: AddItemInputProps) {
         <button
           onClick={handleAdd}
           disabled={!value.trim()}
-          className="w-9 h-9 rounded-xl bg-sage-600 hover:bg-sage-700 active:bg-sage-800 disabled:bg-sage-200 disabled:cursor-not-allowed flex items-center justify-center text-white transition-all duration-200"
+          className="w-10 h-10 rounded-xl bg-sage-600 hover:bg-sage-700 active:bg-sage-800 
+            disabled:bg-sage-200 disabled:cursor-not-allowed flex items-center justify-center 
+            text-white transition-all duration-200 shadow-sm shadow-sage-600/20
+            hover:shadow-md hover:shadow-sage-600/30 active:scale-95"
         >
-          <Plus size={20} />
+          <Plus size={20} strokeWidth={2.5} />
         </button>
       </div>
 
@@ -131,30 +128,51 @@ export default function AddItemInput({ onAdd }: AddItemInputProps) {
       {showSuggestions && suggestions.length > 0 && (
         <div
           ref={suggestionsRef}
-          className="absolute bottom-full mb-2 left-0 right-0 bg-white border border-sage-100 rounded-2xl shadow-lg overflow-hidden animate-slide-up z-30"
+          className="absolute bottom-full mb-2 left-0 right-0 bg-white/95 backdrop-blur-xl 
+            border border-sage-100 rounded-2xl shadow-xl shadow-sage-900/10 overflow-hidden animate-slide-up z-30"
         >
-          {suggestions.map((product, index) => (
-            <button
-              key={product}
-              onClick={() => {
-                setValue(product);
-                setShowSuggestions(false);
-                setSelectedSuggestion(-1);
-                setTimeout(() => handleAdd(), 50);
-              }}
-              className={`w-full px-4 py-3 text-left text-sm flex items-center gap-3 transition-colors ${
-                index === selectedSuggestion
-                  ? 'bg-sage-100 text-sage-800'
-                  : 'text-sage-700 hover:bg-sage-50'
-              }`}
-            >
-              <Plus size={14} className="text-sage-400 shrink-0" />
-              <span>{product}</span>
-              <span className="ml-auto text-[11px] text-sage-400 font-medium">
-                {guessCategory(product)}
-              </span>
-            </button>
-          ))}
+          {/* Header */}
+          <div className="px-4 py-2 flex items-center gap-1.5 border-b border-sage-50">
+            <Sparkles size={12} className="text-sage-400" />
+            <span className="text-[11px] font-medium text-sage-400">Suggestions</span>
+          </div>
+
+          <div className="max-h-56 overflow-y-auto">
+            {suggestions.map((product, index) => {
+              const emoji = getProductEmoji(product);
+              const cat = guessCategory(product);
+              const catEmoji = getCategoryEmoji(cat);
+
+              return (
+                <button
+                  key={product}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    setValue(product);
+                    setShowSuggestions(false);
+                    setSelectedSuggestion(-1);
+                    setTimeout(() => handleAdd(), 50);
+                  }}
+                  className={`w-full px-4 py-3 text-left flex items-center gap-3 transition-all duration-150
+                    ${index === selectedSuggestion
+                      ? 'bg-sage-100 text-sage-800'
+                      : 'text-sage-700 hover:bg-sage-50'
+                    }
+                    ${index !== suggestions.length - 1 ? 'border-b border-sage-50/50' : ''}
+                  `}
+                >
+                  <span className="text-xl w-8 text-center shrink-0">{emoji}</span>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-sm font-medium truncate block">{product}</span>
+                  </div>
+                  <span className="text-[10px] text-sage-400 font-medium flex items-center gap-1 shrink-0">
+                    <span>{catEmoji}</span>
+                    {cat}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>

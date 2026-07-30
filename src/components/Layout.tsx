@@ -9,6 +9,7 @@ import {
   RefreshCw,
   CheckCircle2,
   X,
+  Sparkles,
 } from 'lucide-react';
 import BottomNav from './BottomNav';
 import { useUIStore } from '../store/groceryStore';
@@ -39,115 +40,97 @@ export default function Layout({ children }: LayoutProps) {
   const handleAuth = async () => {
     if (!email || !password) return;
     setAuthError(null);
-
     let success: boolean;
-    if (isSignUp) {
-      success = await signUp(email, password);
-    } else {
-      success = await signIn(email, password);
-    }
-
-    if (success) {
-      setShowAuth(false);
-      setEmail('');
-      setPassword('');
-    }
+    if (isSignUp) success = await signUp(email, password);
+    else success = await signIn(email, password);
+    if (success) { setShowAuth(false); setEmail(''); setPassword(''); }
   };
 
   return (
     <div className="min-h-dvh flex flex-col bg-cream-50">
-      {/* Sync status bar */}
+      {/* Sync status pill */}
       {showSyncIndicator && (
         <div
-          className={`px-4 py-1.5 text-xs font-medium flex items-center justify-center gap-2 transition-all duration-300 animate-slide-up ${
-            pendingCount > 0
+          className={`px-4 py-2 text-xs font-semibold flex items-center justify-center gap-2 
+            transition-all duration-300 animate-slide-up
+            ${pendingCount > 0
               ? 'bg-amber-50 text-amber-700 border-b border-amber-200'
               : syncState === 'synced'
               ? 'bg-green-50 text-green-700 border-b border-green-200'
               : 'bg-warm-50 text-warm-700 border-b border-warm-200'
-          }`}
+            }`}
         >
           {!isOnline ? (
-            <>
-              <CloudOff size={14} />
-              <span>Hors ligne — modifications en attente ({pendingCount})</span>
-              <RefreshCw size={12} className="animate-pulse-soft" />
-            </>
+            <><CloudOff size={13} /><span>Hors ligne — {pendingCount} modification{pendingCount !== 1 ? 's' : ''} en attente</span></>
           ) : pendingCount > 0 ? (
-            <>
-              <RefreshCw size={14} className="animate-spin" />
-              <span>Synchronisation... ({pendingCount} en attente)</span>
-            </>
+            <><RefreshCw size={13} className="animate-spin" /><span>Synchronisation...</span></>
           ) : syncState === 'synced' ? (
-            <>
-              <CheckCircle2 size={14} />
-              <span>Synchronisé ✓</span>
-            </>
+            <><CheckCircle2 size={13} /><span>Synchronisé ✓</span></>
           ) : null}
         </div>
       )}
 
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-lg border-b border-sage-100">
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-2xl border-b border-sage-100/80 shadow-sm">
         <div className="flex items-center justify-between px-4 h-14 max-w-lg mx-auto">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-sage-200 flex items-center justify-center">
-              <span className="text-sage-700 font-bold text-sm">K</span>
+          {/* Logo area */}
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl overflow-hidden shadow-sm shrink-0">
+              <img src="/favicon.svg" alt="Kadix" className="w-full h-full" />
             </div>
-            <h1 className="text-lg font-semibold text-sage-800">Kadix</h1>
-            {!isOnline && (
-              <div className="flex items-center gap-1 px-2 py-0.5 bg-warm-50 rounded-full border border-warm-200">
-                <WifiOff size={10} className="text-warm-600" />
-                <span className="text-[9px] text-warm-700 font-medium">
-                  Hors ligne
-                </span>
+            <div>
+              <h1 className="text-base font-extrabold text-sage-800 tracking-tight leading-none">
+                Kadix
+              </h1>
+              <div className="flex items-center gap-1 mt-0.5">
+                {!isOnline ? (
+                  <div className="flex items-center gap-0.5 px-1.5 py-0.5 bg-warm-50 rounded-full border border-warm-200">
+                    <WifiOff size={8} className="text-warm-600" />
+                    <span className="text-[8px] text-warm-700 font-bold">Hors ligne</span>
+                  </div>
+                ) : pendingCount === 0 && syncState === 'synced' ? (
+                  <div className="flex items-center gap-0.5 px-1.5 py-0.5 bg-green-50 rounded-full border border-green-200">
+                    <Cloud size={8} className="text-green-600" />
+                    <span className="text-[8px] text-green-700 font-bold">Sync</span>
+                  </div>
+                ) : pendingCount > 0 ? (
+                  <div className="flex items-center gap-0.5 px-1.5 py-0.5 bg-amber-50 rounded-full border border-amber-200">
+                    <RefreshCw size={8} className="text-amber-600 animate-spin" />
+                    <span className="text-[8px] text-amber-700 font-bold">{pendingCount}</span>
+                  </div>
+                ) : null}
               </div>
-            )}
-            {isOnline && pendingCount === 0 && syncState === 'synced' && (
-              <div className="flex items-center gap-1 px-2 py-0.5 bg-green-50 rounded-full border border-green-200">
-                <Cloud size={10} className="text-green-600" />
-                <span className="text-[9px] text-green-700 font-medium">
-                  Sync
-                </span>
-              </div>
-            )}
-            {isOnline && pendingCount > 0 && (
-              <div className="flex items-center gap-1 px-2 py-0.5 bg-amber-50 rounded-full border border-amber-200">
-                <RefreshCw size={10} className="text-amber-600 animate-spin" />
-                <span className="text-[9px] text-amber-700 font-medium">
-                  {pendingCount}
-                </span>
-              </div>
-            )}
+            </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            {/* Share button */}
+          {/* Actions */}
+          <div className="flex items-center gap-1">
             <button
               onClick={() => setShowShareSheet(true)}
-              className="w-9 h-9 rounded-full flex items-center justify-center text-sage-500 hover:bg-sage-100 active:bg-sage-200 transition-colors"
-              aria-label="Partager la liste"
+              className="w-9 h-9 rounded-xl flex items-center justify-center text-sage-500 
+                hover:bg-sage-100 hover:text-sage-700 active:bg-sage-200 transition-all"
+              aria-label="Partager"
             >
-              <Share2 size={18} />
+              <Share2 size={17} />
             </button>
 
-            {/* Auth button */}
             {!authLoading && !user && (
               <button
                 onClick={() => setShowAuth(true)}
-                className="w-9 h-9 rounded-full flex items-center justify-center text-sage-500 hover:bg-sage-100 active:bg-sage-200 transition-colors"
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-sage-500 
+                  hover:bg-sage-100 hover:text-sage-700 active:bg-sage-200 transition-all"
                 aria-label="Connexion"
               >
-                <LogIn size={18} />
+                <LogIn size={17} />
               </button>
             )}
 
-            {/* Menu button */}
             <button
-              className="w-9 h-9 rounded-full flex items-center justify-center text-sage-500 hover:bg-sage-100 active:bg-sage-200 transition-colors"
+              className="w-9 h-9 rounded-xl flex items-center justify-center text-sage-500 
+                hover:bg-sage-100 hover:text-sage-700 active:bg-sage-200 transition-all"
               aria-label="Menu"
             >
-              <MoreHorizontal size={18} />
+              <MoreHorizontal size={17} />
             </button>
           </div>
         </div>
@@ -160,17 +143,19 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Auth modal */}
       {showAuth && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-end sm:items-center justify-center">
-          <div className="bg-white rounded-t-2xl sm:rounded-2xl w-full max-w-md p-6 animate-slide-up">
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-md flex items-end sm:items-center justify-center">
+          <div className="bg-white rounded-t-3xl sm:rounded-3xl w-full max-w-md p-6 animate-slide-up shadow-2xl">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-semibold text-sage-800">
-                {isSignUp ? 'Créer un compte' : 'Connexion'}
-              </h2>
-              <button
-                onClick={() => setShowAuth(false)}
-                className="w-8 h-8 rounded-full bg-sage-100 flex items-center justify-center text-sage-500 hover:bg-sage-200"
-              >
-                <X size={16} />
+              <div className="flex items-center gap-2">
+                <Sparkles size={18} className="text-sage-500" />
+                <h2 className="text-lg font-extrabold text-sage-800">
+                  {isSignUp ? 'Créer un compte' : 'Connexion'}
+                </h2>
+              </div>
+              <button onClick={() => setShowAuth(false)}
+                className="w-8 h-8 rounded-xl bg-sage-100 flex items-center justify-center 
+                  text-sage-500 hover:bg-sage-200 transition-colors">
+                <X size={15} />
               </button>
             </div>
 
@@ -181,38 +166,27 @@ export default function Layout({ children }: LayoutProps) {
             )}
 
             <div className="space-y-3">
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
+              <input type="email" placeholder="Email" value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-sage-50 border border-sage-200 rounded-xl text-sage-800 placeholder-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-300 focus:border-transparent transition-all"
-              />
-              <input
-                type="password"
-                placeholder="Mot de passe"
-                value={password}
+                className="w-full px-4 py-3.5 bg-sage-50 border border-sage-200 rounded-xl text-sage-800 
+                  placeholder-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-300 
+                  focus:border-transparent transition-all text-[15px]" />
+              <input type="password" placeholder="Mot de passe" value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-sage-50 border border-sage-200 rounded-xl text-sage-800 placeholder-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-300 focus:border-transparent transition-all"
-              />
-              <button
-                onClick={handleAuth}
-                className="w-full py-3 bg-sage-600 hover:bg-sage-700 active:bg-sage-800 text-white font-medium rounded-xl transition-colors"
-              >
+                className="w-full px-4 py-3.5 bg-sage-50 border border-sage-200 rounded-xl text-sage-800 
+                  placeholder-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-300 
+                  focus:border-transparent transition-all text-[15px]" />
+              <button onClick={handleAuth}
+                className="w-full py-3.5 bg-sage-600 hover:bg-sage-700 active:bg-sage-800 
+                  text-white font-extrabold rounded-xl transition-all shadow-md 
+                  shadow-sage-600/20 hover:shadow-lg active:scale-[0.98]">
                 {isSignUp ? 'Créer un compte' : 'Se connecter'}
               </button>
             </div>
 
-            <button
-              onClick={() => {
-                setIsSignUp(!isSignUp);
-                setAuthError(null);
-              }}
-              className="w-full mt-4 text-sm text-sage-500 hover:text-sage-700 transition-colors"
-            >
-              {isSignUp
-                ? 'Déjà un compte ? Connectez-vous'
-                : 'Pas encore de compte ? Créez-en un'}
+            <button onClick={() => { setIsSignUp(!isSignUp); setAuthError(null); }}
+              className="w-full mt-4 text-sm text-sage-500 hover:text-sage-700 font-medium transition-colors">
+              {isSignUp ? 'Déjà un compte ? Connectez-vous' : 'Pas encore de compte ? Créez-en un'}
             </button>
           </div>
         </div>

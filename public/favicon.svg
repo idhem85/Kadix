@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#636c55"/>
       <stop offset="100%" stop-color="#4e5542"/>
     </linearGradient>
@@ -10,40 +10,51 @@
     </linearGradient>
   </defs>
   
-  <!-- Background rounded square -->
-  <rect x="40" y="40" width="432" height="432" rx="96" fill="url(#grad)"/>
+  <!-- Rounded container -->
+  <rect x="20" y="20" width="472" height="472" rx="108" fill="url(#bg)"/>
   
-  <!-- Decorative accent curve -->
-  <path d="M 40 320 Q 160 280 200 180" stroke="url(#accent)" stroke-width="8" fill="none" opacity="0.3"/>
-  <path d="M 472 200 Q 340 240 310 340" stroke="url(#accent)" stroke-width="6" fill="none" opacity="0.2"/>
+  <!-- Subtle inner border -->
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
   
-  <!-- Shopping leaf icon (top-right decorative) -->
-  <g transform="translate(320, 120)" opacity="0.9">
-    <path d="M 0 30 Q 20 0 50 10 Q 35 20 30 35 Q 20 40 10 38 Q 5 40 0 30 Z" 
-          fill="url(#accent)" opacity="0.6"/>
-    <line x1="25" y1="18" x2="15" y2="40" stroke="#d4a55e" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+  <!-- Shopping bag body -->
+  <g transform="translate(256, 180)">
+    <!-- Bag handle (curved) -->
+    <path d="M -40 -50 Q -45 -90 -10 -100 Q 15 -105 25 -95 Q 50 -85 45 -50" 
+          fill="none" stroke="white" stroke-width="8" stroke-linecap="round"/>
+    
+    <!-- Bag body -->
+    <path d="M -68 -45 L 68 -45 L 55 140 L -55 140 Z" fill="white" opacity="0.95" rx="12"/>
+    
+    <!-- Bag bottom curve -->
+    <path d="M -55 140 Q 0 160 55 140" fill="none" stroke="white" stroke-width="2"/>
+    
+    <!-- Leaf/sprout growing from bag -->
+    <g transform="translate(10, -20)">
+      <path d="M -8 10 Q -25 -30 0 -65 Q 25 -40 12 10 Z" fill="url(#accent)" opacity="0.7"/>
+      <path d="M 0 -5 Q 15 -25 30 -20 Q 20 -5 5 5 Z" fill="url(#accent)" opacity="0.5"/>
+      <!-- Leaf vein -->
+      <path d="M 0 0 Q -10 -20 3 -45" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+    </g>
+    
+    <!-- Decorative dots -->
+    <circle cx="-25" cy="30" r="4" fill="rgba(78,69,66,0.15)"/>
+    <circle cx="25" cy="50" r="3" fill="rgba(78,69,66,0.15)"/>
+    <circle cx="-10" cy="70" r="2.5" fill="rgba(78,69,66,0.10)"/>
   </g>
   
-  <!-- Main letter K -->
-  <g transform="translate(256, 256)">
-    <!-- Vertical stroke -->
-    <rect x="-32" y="-120" width="52" height="240" rx="18" fill="white"/>
-    
-    <!-- Upper arm -->
-    <path d="M 20 -120 Q 60 -80 100 -30 L 80 0 Q 40 -50 20 -60 Z" fill="white"/>
-    <path d="M 20 -60 Q 60 -50 120 20 Q 100 50 20 5 Z" fill="white"/>
-    
-    <!-- Lower arm -->
-    <path d="M 20 5 Q 80 40 120 90 Q 100 120 20 60 Z" fill="white"/>
-    
-    <!-- Subtle dot accent -->
-    <circle cx="75" cy="-75" r="8" fill="url(#accent)"/>
-  </g>
-  
-  <!-- Small sparkles -->
-  <g opacity="0.4">
-    <circle cx="140" cy="150" r="5" fill="white"/>
-    <circle cx="165" cy="135" r="3" fill="white"/>
-    <circle cx="370" cy="360" r="4" fill="white"/>
+  <!-- Brand name: KADIX -->
+  <g transform="translate(256, 340)">
+    <text x="0" y="0" font-family="'Inter', 'SF Pro Display', system-ui, sans-serif" 
+          font-size="64" font-weight="800" fill="white" text-anchor="middle" 
+          letter-spacing="12">
+      <tspan>K</tspan><tspan fill="url(#accent)">A</tspan><tspan>DIX</tspan>
+    </text>
+    <!-- Subtitle line -->
+    <rect x="-80" y="30" width="160" height="2" fill="rgba(255,255,255,0.2)" rx="1"/>
+    <text x="0" y="52" font-family="'Inter', system-ui, sans-serif" 
+          font-size="14" font-weight="500" fill="rgba(255,255,255,0.5)" 
+          text-anchor="middle" letter-spacing="6">
+      LISTE DE COURSES
+    </text>
   </g>
 </svg>

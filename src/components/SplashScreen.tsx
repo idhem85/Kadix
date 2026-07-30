@@ -59,7 +59,7 @@ export default function SplashScreen({ onFinish, minDuration = 2000 }: SplashScr
         <div className="relative w-28 h-28 mx-auto mb-6">
           <svg viewBox="0 0 512 512" className="w-full h-full">
             {/* Logo symbol paths from brand */}
-            <g transform="translate(256, 260) scale(0.36)">
+            <g transform="translate(256, 260) scale(0.42)">
               <path fill="rgba(255,255,255,0.85)" d="M 0 -52 C 11 -52 20 -61 20 -73 L 20 -113 C 20 -165 62 -208 115 -208 C 167 -208 210 -165 210 -113 L 210 -73 C 210 -61 219 -52 231 -52 C 242 -52 252 -61 252 -73 L 252 -107 C 252 -180 197 -244 124 -249 C 45 -254 -21 -191 -21 -113 L -21 -73 C -21 -61 -12 -52 0 -52 Z"/>
               <path fill="white" d="M 439 490 L 393 44 C 389 8 359 -18 324 -18 L -92 -18 C -128 -18 -158 9 -161 44 L -173 155 C -180 230 -110 288 -38 266 L 0 254 C 45 240 94 263 111 312 C 117 329 117 348 111 365 L 94 421 C 70 498 128 577 209 577 L 360 577 C 406 577 443 536 439 490 Z"/>
               <path fill="rgba(255,255,255,0.8)" d="M 15 302 L -209 370 C -242 380 -244 426 -213 439 L -159 462 C -131 474 -108 496 -96 525 L -74 578 C -60 610 -15 608 -5 575 L 63 350 C 72 320 45 293 15 302 Z"/>

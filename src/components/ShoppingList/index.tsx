@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import { ShoppingBag, RefreshCw, CheckCheck } from 'lucide-react';
+import { ShoppingBag, RefreshCw, CheckCheck, ShoppingCart, Zap } from 'lucide-react';
 import AddItemInput from './AddItemInput';
 import GroceryItem from './GroceryItem';
-import { useGroceryStore, useTabStore } from '../../store/groceryStore';
+import { useGroceryStore, useTabStore, useShoppingModeStore } from '../../store/groceryStore';
 import { addGroceryItem, getGroceryItems, toggleGroceryItem, deleteGroceryItem, clearCheckedItems, addToPantry } from '../../lib/db';
 import { useRealtimeSubscription } from '../../hooks/useRealtime';
 import { getCategoryEmoji } from '../../types';
@@ -14,6 +14,7 @@ interface ShoppingListProps {
 
 export default function ShoppingListView({ listId }: ShoppingListProps) {
   const { items, setItems, isLoading, setLoading } = useGroceryStore();
+  const { enterShoppingMode } = useShoppingModeStore();
   const [isClearing, setIsClearing] = useState(false);
 
   useRealtimeSubscription(listId);
@@ -66,7 +67,7 @@ export default function ShoppingListView({ listId }: ShoppingListProps) {
       {/* Progress header */}
       {items.length > 0 && (
         <div className="bg-white rounded-2xl border border-sage-100 p-4 shadow-sm">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <span className="text-lg">{uncheckedCount === 0 ? '🎉' : '🛍️'}</span>
               <div>
@@ -84,18 +85,32 @@ export default function ShoppingListView({ listId }: ShoppingListProps) {
               </div>
             </div>
 
-            {checkedCount > 0 && (
+            <div className="flex items-center gap-2">
+              {/* Mode Course button */}
               <button
-                onClick={handleClearChecked}
-                disabled={isClearing}
-                className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-sage-600 
-                  hover:text-sage-800 bg-sage-100 hover:bg-sage-200 rounded-xl transition-all
-                  disabled:opacity-50 active:scale-95"
+                onClick={enterShoppingMode}
+                className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-extrabold text-white 
+                  bg-sage-600 hover:bg-sage-700 active:bg-sage-800 rounded-xl transition-all
+                  shadow-sm shadow-sage-600/20 active:scale-95"
               >
-                <CheckCheck size={14} />
-                <span>Vider ({checkedCount})</span>
+                <Zap size={14} />
+                <ShoppingCart size={14} />
+                Course
               </button>
-            )}
+
+              {checkedCount > 0 && (
+                <button
+                  onClick={handleClearChecked}
+                  disabled={isClearing}
+                  className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-sage-600 
+                    hover:text-sage-800 bg-sage-100 hover:bg-sage-200 rounded-xl transition-all
+                    disabled:opacity-50 active:scale-95"
+                >
+                  <CheckCheck size={14} />
+                  <span>Vider ({checkedCount})</span>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Progress bar */}

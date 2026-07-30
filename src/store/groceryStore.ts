@@ -116,3 +116,19 @@ export const useUIStore = create<UIState>((set) => ({
     set({ pendingCount: count, showSyncIndicator: count > 0 }),
   setShowSyncIndicator: (show) => set({ showSyncIndicator: show }),
 }));
+
+// ============================================
+// Shopping Mode Store
+// ============================================
+
+interface ShoppingModeState {
+  isShoppingMode: boolean;
+  enterShoppingMode: () => void;
+  exitShoppingMode: () => void;
+}
+
+export const useShoppingModeStore = create<ShoppingModeState>((set) => ({
+  isShoppingMode: false,
+  enterShoppingMode: () => set({ isShoppingMode: true }),
+  exitShoppingMode: () => set({ isShoppingMode: false }),
+}));

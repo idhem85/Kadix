@@ -4,8 +4,9 @@ import Layout from './components/Layout';
 import ShoppingListView from './components/ShoppingList';
 import PantryView from './components/Pantry';
 import RecipesView from './components/Recipes';
+import ShoppingMode from './components/ShoppingMode';
 import SplashScreen from './components/SplashScreen';
-import { useTabStore, useGroceryStore, useUIStore } from './store/groceryStore';
+import { useTabStore, useGroceryStore, useUIStore, useShoppingModeStore } from './store/groceryStore';
 import { useAuth } from './hooks/useAuth';
 import { useOfflineStatus } from './hooks/useOffline';
 import { createShoppingList, getShoppingLists } from './lib/db';
@@ -15,6 +16,7 @@ export default function App() {
   const { setCurrentList, currentList } = useGroceryStore();
   const { loading: authLoading } = useAuth();
   const { isOnline, pendingCount } = useUIStore();
+  const { isShoppingMode, exitShoppingMode } = useShoppingModeStore();
   const { syncNow } = useOfflineStatus();
 
   const [appLoading, setAppLoading] = useState(true);
@@ -83,6 +85,11 @@ export default function App() {
   }
 
   const listId = currentList?.id;
+
+  // Shopping Mode: fullscreen overlay
+  if (isShoppingMode && listId) {
+    return <ShoppingMode onExit={exitShoppingMode} listId={listId} />;
+  }
 
   return (
     <Layout>
